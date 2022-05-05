@@ -1,6 +1,5 @@
 # lgpd
 Projeto TCC - Front-end
-Projeto TCC - Backend
 
 Para rodar o projeto você ter vue.js instalado e node > 16
 
