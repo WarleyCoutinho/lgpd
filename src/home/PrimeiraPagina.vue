@@ -2,7 +2,7 @@
   <div class="container">
     <hr class="hr" />
     <div id="texto1">
-      <h2>Olá, {{ user.name }}</h2>
+      <h2>Olá, {{ ` ${user.user.name}` }}</h2>
     </div>
     <div id="texto2">
       <h4>Situação atual</h4>
@@ -37,7 +37,7 @@
         </b-row>
       </ul>
     </div>
-    <b-card>
+    <b-card id="card">
       <div>
         <b-row>
           <div>
@@ -47,7 +47,7 @@
           </div>
         </b-row>
       </div>
-      <b-row>
+      <b-row id="card01">
         <div>
           <b-col md="12" sm="12" class="">
             <div>
@@ -63,7 +63,9 @@
       <b-row>
         <div>
           <b-col md="12" sm="12" class="">
-            <div><h1>Ir para Departamentos</h1></div>
+            <div id="irDepartamentos">
+              <h1 id="titulo">Ir para Departamentos</h1>
+            </div>
           </b-col>
         </div>
       </b-row>
@@ -113,4 +115,110 @@ export default {
 */
 </script>
 
-<style></style>
+<style scoped>
+#card {
+  width: 704px;
+  height: 96px;
+  left: 08px;
+  top: 96px;
+
+  /* H5 */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  /* or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#card01 {
+  width: 704px;
+  height: 96px;
+  left: 8px;
+  top: 6px;
+
+  /* H5 */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  /* or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+.naohatestes {
+  width: 700px;
+  height: 50px;
+  left: 12px;
+  top: 0.1px;
+
+  /* H4 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  /* identical to box height, or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#irDepartamentos {
+  /* Auto layout */
+
+  justify-content: center;
+  align-items: center;
+  padding: 1px 4px;
+  gap: 1px;
+
+  height: 56px;
+  left: 3px;
+  top: 40px;
+
+  /* Blue Grey 900 */
+
+  border: 2px solid #263238;
+  border-radius: 8px;
+}
+#titulo {
+  width: 198px;
+  height: 24px;
+
+  /* H5 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+</style>

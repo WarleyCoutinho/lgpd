@@ -2,7 +2,7 @@
   <div class="container">
     <hr class="hr" />
     <div id="texto1">
-      <h2>Olá, {{ user.name }}</h2>
+      <h2>Olá, {{ ` ${user.user.name}` }}</h2>
     </div>
     <div id="texto2">
       <h4>Situação atual</h4>
@@ -10,12 +10,33 @@
     <b-row>
       <div id="container">
         <div class="column1">
-          <img id="foto1" src="../assets/75.png" alt="48" />
+          <!-- <img id="foto1" src="../assets/75.png" alt="48" /-->
+
+          <b-row id="statistics">
+            <section>
+              <h1>{{ parseInt(statistics.completePercentage).toFixed(0) }}%</h1>
+            </section>
+          </b-row>
+          <!-- <apexchart
+            id="financia"
+            type="radialBar"
+            height="220"
+            :options="chartOptions"
+            :series="series"
+          /> -->
+
           <div>
-            <h2 class="textoMeio2">Sua empresa está 75% dentro da LGPD</h2>
-            <h5><a href="/financas" class="title6">Ver detalhes</a></h5>
+            <h2 class="textoMeio2">
+              Sua empresa está
+              {{ parseInt(statistics.completePercentage).toFixed(0) }}% dentro
+              da LGPD
+            </h2>
+            <h5 id="title6">
+              <a href="/financas"> <h5 id="verDetalhes">Ver detalhes</h5></a>
+            </h5>
           </div>
         </div>
+        <b-col> </b-col>
         <div class="column2">
           <div>
             <h5 id="textoTitulo">Duvidas frequentes</h5>
@@ -64,7 +85,7 @@
           <h3 id="title">R.H.</h3>
           <li>
             <img id="foto1" src="../assets/89.png" alt="48" />
-            <a href=""><h4 id="title">Ver detalhes</h4></a>
+            <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
       </div>
@@ -73,84 +94,82 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { userKey } from '@/global';
+import { request } from '@/config/services/request';
+
+// import { mapState } from 'vuex';
 // import ApexCharts from 'vue-apexcharts';
 export default {
   name: 'Inicio',
   // components: { apexchart: ApexCharts },
-  computed: mapState(['user']),
+  //computed: mapState(['user']),
+  data() {
+    return {
+      user: JSON.parse(localStorage.getItem(userKey)),
+      statistics: {},
+      series: [],
+      chartOptions: {},
+    };
+  },
   methods: {
+    loadanswers() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statistics = res.data[0];
+        });
+    },
     logout() {
       this.$store.commit('setUser', null);
       this.$router.push({ name: 'auth' });
     },
+    async valueChart() {
+      let companyId = [];
+      // let department = [];
+      // let options = [];
+      // let questionId = [];
+
+      companyId = porcentagemStatistics;
+
+      const porcentagemStatistics = await this.mxGetAnswerStatistics(
+        companyId
+        // department,
+        // questionId,
+        // options
+      );
+      console.log('porcentagemStatistics', this.mxGetAnswer);
+      this.series = [
+        {
+          name: '%',
+          data: companyId,
+          // data: [75],
+        },
+      ];
+      this.chartOptions = {
+        chart: {
+          height: 220,
+          type: 'radialBar',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '70%',
+            },
+          },
+        },
+      };
+    },
   },
-  data: function () {
-    return {
-      // series: [75],
-      // chartOptions: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   labels: ['75%'],
-      // },
-      // //financias
-      // financias: [48],
-      // financia: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   labels: [''],
-      // },
-      // // T.I
-      // tis: [66],
-      // ti: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   labels: [''],
-      // },
-      // // Marketing
-      // marketings: [72],
-      // marketing: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   labels: [''],
-      // },
-    };
+  mounted() {
+    this.loadanswers();
+    // this.valueChart();
   },
 };
 </script>
@@ -185,9 +204,15 @@ li {
   flex-direction: row;
   align-items: center;
 }
-
+#statistics {
+  margin-top: 100px;
+  margin-left: 40px;
+  width: 400px;
+  height: 250px;
+  color: #eceff1;
+  border-radius: 32px;
+}
 .column1 {
-  margin-right: 270px;
   background-color: #263238;
   width: 500px;
   height: 250px;
@@ -222,10 +247,14 @@ li {
   color: #000;
 }
 
-.title6 {
+#title6 {
   margin-left: 20px;
   margin-right: 50px;
-  margin-top: 40px;
+  margin-top: 50px;
+  color: white;
+}
+
+#verDetalhes {
   color: white;
 }
 
@@ -237,7 +266,7 @@ li {
 .textoMeio2 {
   color: white;
   margin-right: 30px;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .title1 {

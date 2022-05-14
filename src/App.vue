@@ -1,62 +1,59 @@
 <template>
-  <div id="app" :class="{ 'hide-menu': !isMenuVisible || !user }">
-    <Header
-      title="TCC- Projeto de conclusão de Curso"
-      :hideToggle="!user"
-      :hideUserDropdown="!user"
-    />
-    <Menu v-if="user" />
-    <Loading v-if="validatingToken" />
-    <Content v-else />
+  <div id="app" :class="{ container: !user }">
+    <Header :hideUserDropdown="!user" />
+    <!-- <Loading v-if="checkTokenValidate" />
+    <Content else />  -->
+    <Content />
     <Footer />
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import { baseApiUrl, userKey } from '@/global';
+// import { baseApiUrl, userKey } from '@/global';
+import { userKey } from '@/global';
 import { mapState } from 'vuex';
 import Header from '@/components/template/Header';
-// import Menu from '@/components/template/Menu';
 import Content from '@/components/template/Content';
 import Footer from '@/components/template/Footer';
-import Loading from '@/components/template/Loading';
-import './styles/global.css';
+//import Loading from '@/components/template/Loading';
+import './config/styles/global.css';
+import { request } from '@/config/services/request';
 export default {
   name: 'App',
-  components: { Header, Content, Footer, Loading },
-  computed: mapState(['isMenuVisible', 'user']),
+  components: { Header, Content, Footer },
+  computed: mapState(['user']),
   data: function () {
     return {
-      validatingToken: true,
+      checkToken: true,
     };
   },
   methods: {
-    async validateToken() {
-      this.validatingToken = true;
+    async checkTokenValidate() {
+      this.checkToken = true;
       const json = localStorage.getItem(userKey);
       const userData = JSON.parse(json);
       this.$store.commit('setUser', null);
       if (!userData) {
-        this.validatingToken = false;
+        this.checkToken = true;
         this.$router.push({ name: 'auth' });
-        return;
+        return true;
       }
-      const res = await axios.post(`${baseApiUrl}/validateToken`, userData);
+      const res = await request().post(
+        `http://localhost:3000/login/check-token`,
+        userData
+      );
       if (res.data) {
         this.$store.commit('setUser', userData);
-        if (this.$mq === 'xs' || this.$mq === 'sm') {
-          this.$store.commit('toggleMenu', false);
-        }
       } else {
         localStorage.removeItem(userKey);
         this.$router.push({ name: 'auth' });
       }
-      this.validatingToken = false;
+      this.checkToken = false;
+      return false;
     },
   },
   created() {
-    this.validateToken();
+    this.checkTokenValidate();
   },
 };
 </script>

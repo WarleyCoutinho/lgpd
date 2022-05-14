@@ -22,7 +22,9 @@
               <router-link to="/inicio">Inicio</router-link>
             </li>
             <li v-on:click="closeMenu" id="Departamentos">
-              <router-link to="/departamentos">Departamentos</router-link>
+              <router-link to="/departamentos-inicio"
+                >Departamentos</router-link
+              >
             </li>
             <li v-on:click="closeMenu">
               <router-link to="/lgpd">LGPD</router-link>
@@ -47,7 +49,6 @@ import { mapState } from 'vuex';
 export default {
   name: 'Header',
   props: {
-    title: String,
     hideUserDropdown: Boolean,
   },
   components: { UserDropdown },
@@ -58,11 +59,6 @@ export default {
     };
   },
   computed: {
-    icon() {
-      return this.$store.state.isMenuVisible
-        ? 'fa-toggle-on'
-        : ' fa-toggle-off ';
-    },
     ...mapState(['user']),
   },
   methods: {
@@ -82,7 +78,7 @@ header {
   background-color: var(--color-background);
   width: 100%;
   height: 60px;
-  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -113,7 +109,7 @@ nav {
   top: 25%;
   bottom: 26%;
 
-  margin-left: -400px;
+  margin-left: -500px;
   /* justify-content: space-between; */
 
   font-family: 'Product Sans';

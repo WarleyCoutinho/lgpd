@@ -1,24 +1,17 @@
 <template>
   <div class="user-dropdown">
     <div class="user-button">
-      <span class="d-none d-sm-block">{{ user.name }}</span>
-      <!-- <div class="nivel"> <p >{{ user.nivel}}</p></div> -->
+      <span class="d-none d-sm-block">{{ ` ${user.user.name}` }}</span>
+      <div class="nivel">
+        <p>{{ user.user.admin }}</p>
+      </div>
       <div class="user-dropdown-img">
-        <Gravatar :email="user.email" alt="User" />
+        <Gravatar :email="user.user.email" alt="User" />
       </div>
       <i class="fa fa-angle-down"></i>
     </div>
     <div class="user-dropdown-content">
-      <router-link to="#" v-if="user.nivel <= 2">
-        <i class="fa fa-cog"></i> Administração
-      </router-link>
-      <router-link to="#" v-if="user.nivel <= 2">
-        <i class="fa fa-cogs"></i> Configuração
-      </router-link>
-      <router-link to="#" v-if="user.nivel <= 3">
-        <i class="fa fa-cogs"></i> Relatório
-      </router-link>
-      <router-link to="/users" v-if="user.nivel <= 1">
+      <router-link to="/users">
         <i class="fa fa-users"></i> Usuários
       </router-link>
       <a href @click.prevent="logout"> <i class="fa fa-sign-out"></i> Sair </a>
@@ -46,10 +39,6 @@ export default {
 </script>
 
 <style scoped>
-/* .nivel{
-   margin: 0;
-  padding: 0;
-} */
 .user-dropdown {
   position: relative;
   height: 100%;

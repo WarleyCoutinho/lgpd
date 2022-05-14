@@ -12,9 +12,7 @@ export default {
 
 <style>
 .content {
-  width: 100%;
-  min-height: calc(100vh - 120px);
-  display: flex;
+  width: 90%;
   flex-direction: column;
   background-color: var(--color-background-content);
 }
