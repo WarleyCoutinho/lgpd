@@ -1,19 +1,23 @@
 <template>
   <div id="app" :class="{ container: !user }">
     <Header :hideUserDropdown="!user" />
+    <!-- <Loading v-if="checkTokenValidate" />
+    <Content else />  -->
     <Content />
     <Footer />
   </div>
 </template>
 
 <script>
-import { baseApiUrl, userKey } from '@/global';
-import { request } from '@/config/services/request';
+// import { baseApiUrl, userKey } from '@/global';
+import { userKey } from '@/global';
 import { mapState } from 'vuex';
 import Header from '@/components/template/Header';
 import Content from '@/components/template/Content';
 import Footer from '@/components/template/Footer';
-import './config/styles/global.css';
+//import Loading from '@/components/template/Loading';
+import './styles/global.css';
+import { request } from '@/config/services/request';
 export default {
   name: 'App',
   components: { Header, Content, Footer },
@@ -35,7 +39,7 @@ export default {
         return true;
       }
       const res = await request().post(
-        `${baseApiUrl}/login/check-token`,
+        `http://localhost:3000/login/check-token`,
         userData
       );
       if (res.data) {

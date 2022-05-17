@@ -19,14 +19,38 @@
         <div class="box">
           <h3 class="title">Finanças</h3>
           <li>
-            <img id="foto1" src="../../assets/48.png" alt="48" />
+            <!-- <img id="foto1" src="../../assets/48.png" alt="48" /> -->
+            <b-row id="statistics1">
+              <section>
+                <h1>
+                  {{ parseInt(statistics.completePercentage).toFixed(0) }}%
+                </h1>
+              </section>
+            </b-row>
+            <!-- <apexchart
+              id="financia"
+              class="financia"
+              type="radialBar"
+              height="220"
+              :options="financias"
+              :series="financia"
+            /> -->
+            <!-- para mostrar o grafico decomenta esse codigo acima -->
             <a href="/financas"><h4 class="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
           <h3 class="title">T.I</h3>
           <li>
-            <img id="foto1" src="../../assets/66.png" alt="66" />
+            <!-- <img id="foto1" src="../../assets/66.png" alt="66" /> -->
+            <apexchart
+              id="ti"
+              class="ti"
+              type="radialBar"
+              height="220"
+              :options="ti"
+              :series="tis"
+            />
             <a href="/ti"><h4 class="title">Ver detalhes</h4></a>
           </li>
         </div>
@@ -35,14 +59,30 @@
         <div class="box">
           <h3 class="title">Marketing</h3>
           <li>
-            <img id="foto1" src="../../assets/72.png" alt="72" />
+            <!-- <img id="foto1" src="../../assets/72.png" alt="72" /> -->
+            <apexchart
+              id="marketing"
+              class="marketing"
+              type="radialBar"
+              height="220"
+              :options="marketing"
+              :series="marketings"
+            />
             <a href="/marketing"><h4 class="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
           <h3 class="title">R.H.</h3>
           <li>
-            <img id="foto1" src="../../assets/89.png" alt="89" />
+            <!-- <img id="foto1" src="../../assets/89.png" alt="89" /> -->
+            <apexchart
+              id="rh"
+              class="rh"
+              type="radialBar"
+              height="220"
+              :options="rhs"
+              :series="rh"
+            />
             <a href="/rh"><h4 class="title">Ver detalhes</h4></a>
           </li>
         </div>
@@ -52,8 +92,161 @@
 </template>
 
 <script>
+import { userKey } from '@/global';
+import { request } from '@/config/services/request';
+
+import { mapState } from 'vuex';
+import ApexCharts from 'vue-apexcharts';
 export default {
   name: 'Departamentos',
+  components: { apexchart: ApexCharts },
+  computed: mapState(['user']),
+  data() {
+    return {
+      statistics: {},
+      // descomenta esse codigo para usar os que vem do banco de dados
+
+      // financia: [],
+      // financias: {},
+
+      // fim comenta o de baixo.
+
+      // comenta esse codigo financias
+      financia: [33],
+      financias: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          color: '#52B12C',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '70%',
+            },
+          },
+        },
+        colors: ['#000000'],
+        labels: [''],
+      },
+      // comenta esse codigo acima financias
+      // TI
+      tis: [66],
+      ti: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          color: '#52B12C',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '70%',
+            },
+          },
+        },
+        colors: ['#000000'],
+        labels: [''],
+      },
+      //  TI
+      // Marketing
+      marketings: [72],
+      marketing: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          color: '#52B12C',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '70%',
+            },
+          },
+        },
+        colors: ['#000000'],
+        labels: [''],
+      },
+      //  Marketing
+      // R.H
+      rh: [89],
+      rhs: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          color: '#52B12C',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '70%',
+            },
+          },
+        },
+        colors: ['#000000'],
+        labels: [''],
+      },
+      //  R.H
+    };
+  },
+  methods: {
+    loadanswers() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statistics = res.data[0];
+        });
+    },
+    logout() {
+      this.$store.commit('setUser', null);
+      this.$router.push({ name: 'auth' });
+    },
+    async valueChart() {
+      let companyId = [];
+
+      // Metodo pra adicionar os dados
+      // no grafico vindo do banco de dados
+      // ainda falta terminar a implemetação
+      // pra mostras os dados.
+
+      companyId = statistics;
+
+      const statistics = await this.mxGetAnswerStatistics(companyId);
+      (this.financia = [
+        {
+          name: '%',
+          data: [this.parseInt(statistics.completePercentage)],
+        },
+      ]),
+        (this.financias = {
+          chart: {
+            height: 350,
+            type: 'radialBar',
+            color: '#52B12C',
+          },
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '70%',
+              },
+            },
+          },
+          colors: ['#000000'],
+          labels: [''],
+        });
+    },
+  },
+  mounted() {
+    this.loadanswers();
+    this.valueChart();
+  },
 };
 </script>
 
@@ -69,16 +262,6 @@ i {
 #texto2 {
   margin-left: 200px;
 }
-#nome {
-  color: #000;
-  font-size: 20px;
-  font-weight: bolder;
-}
-
-#logo {
-  color: black;
-  font-size: 40px;
-}
 
 #divNome {
   background-color: white;
@@ -86,6 +269,13 @@ i {
 
 li {
   list-style-type: none;
+}
+#statistics1 {
+  margin-top: 90px;
+  margin-left: 55px;
+  width: 200px;
+  height: 120px;
+  color: #0a0a0a;
 }
 
 #foto {
@@ -210,35 +400,5 @@ li {
   background: white;
   border-radius: 5px;
   border-color: grey;
-}
-#menu-h {
-  background-color: white;
-  width: 100%;
-}
-
-#menu-h ul {
-  max-width: 1000px;
-  list-style: none;
-}
-
-#menu-h ul li {
-  display: inline;
-}
-
-#menu-h ul li a {
-  color: black;
-  padding: 20px;
-  display: inline-block;
-  text-decoration: none;
-  transition: background 0.4s;
-}
-
-#menu-h ul li a:hover {
-  background-color: rgb(24, 139, 233);
-}
-
-#menu-h ul li:last-child a {
-  float: right;
-  background-color: rgb(24, 139, 233);
 }
 </style>

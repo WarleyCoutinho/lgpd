@@ -18,7 +18,12 @@ Vue.mixin({
         request()
           .get(url, {
             params: {
-              responses: [{}],
+              responses: [
+                { answer: 'Sim', questionId: 1 },
+                { answer: 'Não', questionId: 2 },
+                { answer: 'Talvez', questionId: 3 },
+                { answer: 'Sim', questionId: 4 },
+              ],
             },
           })
           .then((response) => {
@@ -34,17 +39,25 @@ Vue.mixin({
     Colocar o header: authorization: Bearer token)
      **GET** http://localhost:3000/answer/:idDaEmpreesa - 
      */
-      const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const companyId = localStorageData.user.companyId;
+      const url = `${baseApiUrl}/answers/${companyId}/statistics`;
 
-      request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
-        .then((res) => {
-          this.statistics = res.data[0];
-        });
+      return new Promise((resolve, reject) => {
+        request()
+          .get(url, {
+            params: {
+              responses: [
+                { answer: 'Sim', questionId: 1 },
+                { answer: 'Não', questionId: 2 },
+                { answer: 'Talvez', questionId: 3 },
+                { answer: 'Sim', questionId: 4 },
+              ],
+            },
+          })
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch((err) => reject(err));
+      });
     },
   },
 });

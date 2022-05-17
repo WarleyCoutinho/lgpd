@@ -63,71 +63,28 @@
         <div class="box">
           <h3 id="title">Finanças</h3>
           <li>
-            <!-- <img id="foto1" src="../assets/48.png" alt="48" /> -->
-
-            <b-row id="statistics1">
-              <section>
-                <h1>
-                  {{ parseInt(statistics.completePercentage).toFixed(0) }}%
-                </h1>
-              </section>
-            </b-row>
-            <!-- <apexchart
-              id="financia"
-              class="financia"
-              type="radialBar"
-              height="220"
-              :options="financias"
-              :series="financia"
-            /> -->
-            <!-- para mostrar o grafico decomenta esse codigo acima 
-            e comenta o de cima a section
-            -->
+            <img id="foto1" src="../assets/48.png" alt="48" />
             <a href="/financas"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
           <h3 id="title">T.I</h3>
           <li>
-            <!-- <img id="foto1" src="../assets/66.png" alt="48" /> -->
-            <apexchart
-              id="ti"
-              class="ti"
-              type="radialBar"
-              height="220"
-              :options="ti"
-              :series="tis"
-            />
+            <img id="foto1" src="../assets/66.png" alt="48" />
             <a href="/ti"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
           <h3 id="title">Marketing</h3>
           <li>
-            <!-- <img id="foto1" src="../assets/72.png" alt="48" /> -->
-            <apexchart
-              id="marketing"
-              class="marketing"
-              type="radialBar"
-              height="220"
-              :options="marketing"
-              :series="marketings"
-            />
+            <img id="foto1" src="../assets/72.png" alt="48" />
             <a href="/marketing"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
           <h3 id="title">R.H.</h3>
           <li>
-            <!-- <img id="foto1" src="../assets/89.png" alt="48" /> -->
-            <apexchart
-              id="rh"
-              class="rh"
-              type="radialBar"
-              height="220"
-              :options="rhs"
-              :series="rh"
-            />
+            <img id="foto1" src="../assets/89.png" alt="48" />
             <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
@@ -140,93 +97,18 @@
 import { userKey } from '@/global';
 import { request } from '@/config/services/request';
 
-import { mapState } from 'vuex';
-import ApexCharts from 'vue-apexcharts';
+// import { mapState } from 'vuex';
+// import ApexCharts from 'vue-apexcharts';
 export default {
   name: 'Inicio',
-  components: { apexchart: ApexCharts },
-  computed: mapState(['user']),
+  // components: { apexchart: ApexCharts },
+  //computed: mapState(['user']),
   data() {
     return {
-      statistics: {
-        completePercentage: 0,
-      },
-
-      // financia: [33],
-      // financias: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //     color: '#52B12C',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   colors: ['#000000'],
-      //   labels: [''],
-      // },
-      // financias
-      // TI
-      tis: [66],
-      ti: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  TI
-      // Marketing
-      marketings: [99],
-      marketing: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  Marketing
-      // R.H
-      rh: [89],
-      rhs: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  R.H
+      user: JSON.parse(localStorage.getItem(userKey)),
+      statistics: {},
+      series: [],
+      chartOptions: {},
     };
   },
   methods: {
@@ -250,13 +132,24 @@ export default {
     },
     async valueChart() {
       let companyId = [];
-      companyId = statistics;
+      // let department = [];
+      // let options = [];
+      // let questionId = [];
 
-      const statistics = await this.mxGetAnswerStatistics(companyId);
+      companyId = porcentagemStatistics;
+
+      const porcentagemStatistics = await this.mxGetAnswerStatistics(
+        companyId
+        // department,
+        // questionId,
+        // options
+      );
+      console.log('porcentagemStatistics', this.mxGetAnswer);
       this.series = [
         {
           name: '%',
-          data: [this.parseInt(statistics.completePercentage)],
+          data: companyId,
+          // data: [75],
         },
       ];
       this.chartOptions = {
@@ -276,7 +169,7 @@ export default {
   },
   mounted() {
     this.loadanswers();
-    this.valueChart();
+    // this.valueChart();
   },
 };
 </script>
@@ -317,13 +210,7 @@ li {
   width: 400px;
   height: 250px;
   color: #eceff1;
-}
-#statistics1 {
-  margin-top: 90px;
-  margin-left: 35px;
-  width: 200px;
-  height: 120px;
-  color: #0a0a0a;
+  border-radius: 32px;
 }
 .column1 {
   background-color: #263238;

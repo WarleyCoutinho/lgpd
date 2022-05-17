@@ -12,7 +12,7 @@
         <div class="column1">
           <img id="foto1" src="../assets/01.jpg" alt="48" />
           <div>
-            <h2 class="textoMeio2">Sua empresa está 0% dentro da LGPD</h2>
+            <h2 class="textoMeio2">Sua empresa está 75% dentro da LGPD</h2>
             <h5><a href="/inicio" class="title6">Ver detalhes</a></h5>
           </div>
         </div>
@@ -75,8 +75,10 @@
 
 <script>
 import { mapState } from 'vuex';
+// import ApexCharts from 'vue-apexcharts';
 export default {
   name: 'PrimeiraPagina',
+  // components: { apexchart: ApexCharts },
   computed: mapState(['user']),
   methods: {
     logout() {
@@ -85,7 +87,23 @@ export default {
     },
   },
   data: function () {
-    return {};
+    return {
+      // series: [0],
+      // chartOptions: {
+      //   chart: {
+      //     height: 20,
+      //     type: 'radialBar',
+      //   },
+      //   plotOptions: {
+      //     radialBar: {
+      //       hollow: {
+      //         size: '70%',
+      //       },
+      //     },
+      //   },
+      //   labels: ['0%'],
+      // },
+    };
   },
 };
 /* arrumar o style pra cada pagina hoje ta global na pagina inicio

@@ -42,8 +42,10 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global';
-import axios from 'axios';
+// import { showError, userKey } from '@/global';
+import { showError, userKey } from '@/global';
+// import axios from 'axios';
+import { request } from '@/config/services/request';
 
 export default {
   name: 'Login',
@@ -55,24 +57,48 @@ export default {
   },
   methods: {
     signin() {
-      axios
-        .post(`${baseApiUrl}/login`, this.user)
+      // axios
+      //   .post(`${baseApiUrl}/login`, this.user)
+      request()
+        .post(`http://localhost:3000/login`, this.user)
         .then((res) => {
           this.$store.commit('setUser', res.data);
+          localStorage.setItem('auth-token', res.data.token);
           localStorage.setItem(userKey, JSON.stringify(res.data));
           this.$router.push({ path: '/' });
+          localStorage.getItem(userKey);
         })
         .catch(showError);
+      // request()
+      //   .post(`http://localhost:3000/login`)
+      //   .then((res) => {
+      //     this.user = res.data;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .catch(showError);
     },
     signup() {
-      axios
-        .post(`${baseApiUrl}/login`, this.user)
+      // axios
+      //   .post(`${baseApiUrl}/login`, this.user)
+      request()
+        .post(`http://localhost:3000/login`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.user = {};
           this.showSignup = false;
-        })
-        .catch(showError);
+        });
+      // request()
+      //   .post(`http://localhost:3000/login`)
+      //   .then((res) => {
+      //     this.$toasted.global.defaultSuccess();
+      //     this.user = res.data;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .catch(showError);
     },
   },
 };
