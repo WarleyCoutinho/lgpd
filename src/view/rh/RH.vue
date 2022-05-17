@@ -20,11 +20,10 @@
           <li v-for="(question, index) in answers.questions" :key="index">
             {{ question.id }}-{{ question.question }}
             <b-form-radio-group
-              :options="responses"
+              v-model="question.answer"
+              :options="question.options"
               stacked
               class="mb-3"
-              value-field="answer"
-              text-field="answer"
             />
           </li>
         </ul>
@@ -46,21 +45,23 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global';
+import { showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
-import axios from 'axios';
 
 export default {
-  name: 'answers',
+  name: 'RH',
   data: function () {
     return {
       mode: 'save',
       answer: {},
       answers: [],
       responses: [
-        { answer: 'Sim', questionId: 1 },
-        { answer: 'Não', questionId: 2 },
-        { answer: 'Talvez', questionId: 3 },
+        // { answer: 'Sim', questionId: 1 },
+        // { answer: 'Não', questionId: 2 },
+        // { answer: 'Sim', questionId: 3 },
+        // { answer: 'Talvez', questionId: 4 },
+        // { answer: 'Sim', questionId: 5 },
+        { answer: 'Sim', questionId: 16 },
       ],
     };
   },
@@ -68,23 +69,18 @@ export default {
     loadanswers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      console.log(companyId);
       request()
         .get(`http://localhost:3000/answer/${companyId}`)
         .then((res) => {
-          const financesQuestions = res.data.find(
-            (item) => item.department == 'RH'
-          );
-          financesQuestions.questions = financesQuestions.questions.sort(
-            (a, b) => {
-              if (a.id > b.id) return 1;
-              if (b.id > a.id) return -1;
+          const rhQuestions = res.data.find((item) => item.department == 'RH');
+          rhQuestions.questions = rhQuestions.questions.sort((a, b) => {
+            if (a.id > b.id) return 1;
+            if (b.id > a.id) return -1;
 
-              return 0;
-            }
-          );
+            return 0;
+          });
 
-          this.answers = financesQuestions;
+          this.answers = rhQuestions;
         });
     },
     reset() {
@@ -93,25 +89,18 @@ export default {
       this.loadanswers();
     },
     save() {
-      const method = this.answer.answerId ? 'put' : 'post';
-      const id = this.answer.answerId ? `/${this.answer.answerId}` : '';
-      axios[method](`${baseApiUrl}/answers${id}`, this.answer)
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .post(`http://localhost:3000/answer/${companyId}`, this.responses)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
         })
         .catch(showError);
+      console.log('Enviando Dados', this.responses);
     },
-    // remove() {
-    //   const id = this.answer.answerId;
-    //   axios
-    //     .delete(`${baseApiUrl}/answers/${id}`)
-    //     .then(() => {
-    //       this.$toasted.global.defaultSuccess();
-    //       this.reset();
-    //     })
-    //     .catch(showError);
-    // },
+
     loadanswer(answer, mode = 'save') {
       this.mode = mode;
       this.answer = { ...answer };

@@ -20,11 +20,10 @@
           <li v-for="(question, index) in answers.questions" :key="index">
             {{ question.id }}-{{ question.question }}
             <b-form-radio-group
-              :options="responses"
+              v-model="question.answer"
+              :options="question.options"
               stacked
               class="mb-3"
-              value-field="answer"
-              text-field="answer"
             />
           </li>
         </ul>
@@ -46,9 +45,8 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global';
+import { showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
-import axios from 'axios';
 
 export default {
   name: 'answers',
@@ -58,9 +56,12 @@ export default {
       answer: {},
       answers: [],
       responses: [
-        { answer: 'Sim', questionId: 1 },
-        { answer: 'Não', questionId: 2 },
-        { answer: 'Talvez', questionId: 3 },
+        // { answer: 'Sim', questionId: 6 },
+        // { answer: 'Não', questionId: 7 },
+        // { answer: 'Sim', questionId: 8 },
+        // { answer: 'Talvez', questionId: 9 },
+        // { answer: 'Sim', questionId: 10 },
+        { answer: 'Sim', questionId: 18 },
       ],
     };
   },
@@ -68,13 +69,13 @@ export default {
     loadanswers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      console.log(companyId);
       request()
         .get(`http://localhost:3000/answer/${companyId}`)
         .then((res) => {
           const financesQuestions = res.data.find(
             (item) => item.department == 'Financeiro'
           );
+          console.log('Trazendo dados', res, financesQuestions);
           financesQuestions.questions = financesQuestions.questions.sort(
             (a, b) => {
               if (a.id > b.id) return 1;
@@ -93,25 +94,17 @@ export default {
       this.loadanswers();
     },
     save() {
-      const method = this.answer.answerId ? 'put' : 'post';
-      const id = this.answer.answerId ? `/${this.answer.answerId}` : '';
-      axios[method](`${baseApiUrl}/answers${id}`, this.answer)
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .post(`http://localhost:3000/answer/${companyId}`, this.responses)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
         })
         .catch(showError);
+      console.log('Enviando Dados', this.responses);
     },
-    // remove() {
-    //   const id = this.answer.answerId;
-    //   axios
-    //     .delete(`${baseApiUrl}/answers/${id}`)
-    //     .then(() => {
-    //       this.$toasted.global.defaultSuccess();
-    //       this.reset();
-    //     })
-    //     .catch(showError);
-    // },
     loadanswer(answer, mode = 'save') {
       this.mode = mode;
       this.answer = { ...answer };

@@ -1,290 +1,180 @@
 <template>
   <div class="container">
     <hr class="hr" />
-
-    <div>
-      <b-row>
-        <b-card>
-          <b-col md="6" sm="12" class="color1">
-            <div class="secao">Marketing</div>
-
-            <div>
-              <b-card-text>
-                1. Esta é uma questão para o usuário sobre algum aspecto do
-                sistema em relação à LGPD, entendeu?
-              </b-card-text>
-              <div>
-                <b-form-group label="" v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Sim"
-                    >Sim</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Não"
-                    >Não</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Talves"
-                    >Talves</b-form-radio
-                  >
-                </b-form-group>
-
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
-                </div>
-              </div>
-            </div>
-            <div>
-              <b-card-text>
-                2. Esta é uma questão para o usuário sobre algum aspecto do
-                sistema em relação à LGPD, entendeu?
-              </b-card-text>
-              <div>
-                <b-form-group label="" v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Sim"
-                    >Sim</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Não"
-                    >Não</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Talves"
-                    >Talves</b-form-radio
-                  >
-                </b-form-group>
-
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
-                </div>
-              </div>
-            </div>
+    <input type="hidden" v-model="answer.answerId" />
+    <b-row>
+      <b-col md="6" sm="12" class="seccão01">
+        <div id="secao">Marketing</div>
+        <input type="hidden" v-model="answer.id" />
+        <b-row>
+          <div id="Ellipse7">
+            <b-dd-header></b-dd-header>
+          </div>
+        </b-row>
+        <b-row>
+          <div id="Ellipse6">
+            <b-dd-header></b-dd-header>
+          </div>
+        </b-row>
+        <ul>
+          <li v-for="(question, index) in answers.questions" :key="index">
+            {{ question.id }}-{{ question.question }}
+            <b-form-radio-group
+              v-model="question.answer"
+              :options="question.options"
+              stacked
+              class="mb-3"
+            />
+          </li>
+        </ul>
+        <b-row>
+          <b-col xs="12">
+            <b-button
+              class="buttons"
+              variant="Light"
+              v-if="mode === 'save'"
+              @click="save"
+            >
+              CONCLUIR
+            </b-button>
           </b-col>
-        </b-card>
-      </b-row>
-    </div>
-
-    <div>
-      <b-row>
-        <b-card>
-          <b-col md="6" sm="12" class="color">
-            <div class="secao">Marketing</div>
-
-            <div>
-              <b-card-text>
-                1. Esta é uma questão para o usuário sobre algum aspecto do
-                sistema em relação à LGPD, entendeu?
-              </b-card-text>
-              <div>
-                <b-form-group label="" v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Sim"
-                    >Sim</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Não"
-                    >Não</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Talves"
-                    >Talves</b-form-radio
-                  >
-                </b-form-group>
-
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
-                </div>
-              </div>
-            </div>
-            <div>
-              <b-card-text>
-                2. Esta é uma questão para o usuário sobre algum aspecto do
-                sistema em relação à LGPD, entendeu?
-              </b-card-text>
-              <div>
-                <b-form-group label="" v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Sim"
-                    >Sim</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Não"
-                    >Não</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="Talves"
-                    >Talves</b-form-radio
-                  >
-                </b-form-group>
-
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
-                </div>
-              </div>
-            </div>
-          </b-col>
-        </b-card>
-      </b-row>
-    </div>
+        </b-row>
+      </b-col>
+    </b-row>
   </div>
 </template>
+
 <script>
-// import { baseApiUrl, showError } from '@/global';
-// import axios from 'axios';
-// import { mapState } from 'vuex';
-// import { VueEditor } from 'vue2-editor';
+import { showError, userKey } from '@/global';
+import { request } from '@/config/services/request';
 
 export default {
-  name: 'Financas',
-  // components: { VueEditor },
+  name: 'Marketing',
   data: function () {
     return {
-      selected: '',
-      // mode: 'save',
-      // perPage: 5,
-      // currentPage: 1,
-      // pageOptions: [5, 10, 15],
-      // filter: null,
-      // filterOn: [],
-      // displayForm: true,
-      // pessoa: {},
-      // pessoas: [],
-      // // beneficio: {},
-      // // beneficios: [],
-      // fields: [
-      //   { key: 'pessoaId', label: '#' },
-      //   { key: 'name', label: 'Nome', sortable: true },
-      //   { key: 'sexo', label: 'Sexo', sortable: true },
-      //   { key: 'dtNascimento', label: 'Data de Nascimento', sortable: true },
-      //   { key: 'cpf', label: 'CPF', sortable: true },
-      //   { key: 'whatsapp', label: 'Whastsapp', sortable: true },
-      //   { key: 'actions', label: 'Ações' },
-      // ],
+      mode: 'save',
+      answer: {},
+      answers: [],
+      responses: [
+        // { answer: 'Sim', questionId: 11 },
+        // { answer: 'Não', questionId: 12 },
+        // { answer: 'Sim', questionId: 13 },
+        // { answer: 'Talvez', questionId: 14 },
+        // { answer: 'Sim', questionId: 15 },
+        { answer: 'Sim', questionId: 17 },
+      ],
     };
   },
-  // methods: {
-  //   loadPessoas() {
-  //     const url = `${baseApiUrl}/pessoas`;
+  methods: {
+    loadanswers() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .get(`http://localhost:3000/answer/${companyId}`)
+        .then((res) => {
+          const comercialQuestions = res.data.find(
+            (item) => item.department == 'Comercial'
+          );
+          console.log('Trazendo dados', res, comercialQuestions);
+          comercialQuestions.questions = comercialQuestions.questions.sort(
+            (a, b) => {
+              if (a.id > b.id) return 1;
+              if (b.id > a.id) return -1;
 
-  //     axios
-  //       .get(url)
-  //       .then((res) => {
-  //         this.pessoas = res.data;
-  //       })
-  //       .map((item) => {
-  //         item.dataNascimentoFormatted = this.$moment(item.dtNascimento).format(
-  //           'DD/MM/YYYY'
-  //         );
+              return 0;
+            }
+          );
 
-  //         return item;
-  //       })
-  //       .sort((a, b) => {
-  //         if (a.dtNascimento > b.dtNascimento) return -1;
-  //         if (a.dtNascimento < b.dtNascimento) return 1;
-
-  //         return 0;
-  //       });
-  //   },
-  //   reset() {
-  //     this.mode = 'save';
-  //     this.pessoa = {};
-  //     this.loadPessoas();
-  //   },
-  //   save() {
-  //     const method = this.pessoa.pessoaId ? 'put' : 'post';
-  //     const id = this.pessoa.pessoaId ? `/${this.pessoa.pessoaId}` : '';
-  //     axios[method](`${baseApiUrl}/pessoas${id}`, this.pessoa)
-  //       .then(() => {
-  //         this.$toasted.global.defaultSuccess();
-  //         this.reset();
-  //       })
-  //       // .catch((err) => {
-  //       //   // window.console.log(err);
-  //       //   showError(err);
-  //       // });
-  //       .catch(showError);
-  //   },
-  //   remove() {
-  //     const id = this.pessoa.pessoaId;
-  //     axios
-  //       .delete(`${baseApiUrl}/pessoas/${id}`)
-  //       .then(() => {
-  //         this.$toasted.global.defaultSuccess();
-  //         this.reset();
-  //       })
-  //       .catch(showError);
-  //   },
-  //   loadPessoa(pessoa, mode = 'save') {
-  //     this.mode = mode;
-  //     this.displayForm = true;
-  //     this.pessoa = { ...pessoa };
-  //     this.pessoa.dtNascimento = this.pessoa.dtNascimento.split('T')[0];
-  //   },
-  //   // loadBeneficios() {
-  //   //   const url = `${baseApiUrl}/beneficios`;
-  //   //   axios.get(url).then((res) => {
-  //   //     this.beneficios = res.data.map((beneficio) => {
-  //   //       return { value: beneficio.id, text: beneficio.path };
-  //   //     });
-  //   //   });
-  //   // },
-
-  //   onFiltered(filteredIntems) {
-  //     this.totalRows = filteredIntems.length;
-  //     this.currentPage = 1;
-  //   },
-  // },
-  // mounted() {
-  //   this.loadPessoas();
-  //   // this.loadBeneficios();
-  // },
-  // computed: {
-  //   rows() {
-  //     return this.pessoas.length;
-  //   },
-  //   ...mapState(['user']),
-  // },
+          this.answers = comercialQuestions;
+        });
+    },
+    reset() {
+      this.mode = 'save';
+      this.answer = {};
+      this.loadanswers();
+    },
+    save() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .post(`http://localhost:3000/answer/${companyId}`, this.responses)
+        .then(() => {
+          this.$toasted.global.defaultSuccess();
+          this.reset();
+        })
+        .catch(showError);
+      console.log('Enviando Dados', this.responses);
+    },
+    loadanswer(answer, mode = 'save') {
+      this.mode = mode;
+      this.answer = { ...answer };
+    },
+  },
+  mounted() {
+    this.loadanswers();
+  },
 };
 </script>
 
 <style scoped>
+.buttons {
+  /* Buttons */
+
+  position: absolute;
+  width: 550px;
+  height: 40px;
+  left: 10px;
+  top: 20px;
+  margin-bottom: 20px;
+  color: black;
+  background-color: #e5e5e5;
+
+  /* H4 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  /* identical to box height, or 133% */
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#Ellipse6 {
+  /* Ellipse 6 */
+
+  width: 24px;
+  height: 24px;
+  left: 1656px;
+  top: 299px;
+  border-radius: 32px;
+  margin-bottom: 20px;
+  margin-left: 890px;
+
+  /* Blue Grey 50 */
+
+  background: #eceff1;
+  /* Blue Grey 900 */
+
+  border: 4px solid #263238;
+}
+#Ellipse7 {
+  /* Ellipse 7 */
+
+  width: 24px;
+  height: 24px;
+  left: 1656px;
+  top: 355px;
+  border-radius: 32px;
+  margin-bottom: 20px;
+  margin-left: 890px;
+
+  /* Teal 300 */
+
+  background: #4db6ac;
+}
 .color {
   margin-top: 10px;
   color: #000;
@@ -292,7 +182,27 @@ export default {
   margin-left: 300px;
   background-color: var(--color-background-nav);
 }
-.color1 {
+#secao {
+  /* margin-left: 200px; */
+  width: 559px;
+  height: 64px;
+  left: 680px;
+  top: 188px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 64px;
+  /* identical to box height, or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+.seccão01 {
   margin-top: 10px;
   color: #000;
   margin-right: 500px;
