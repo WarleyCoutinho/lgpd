@@ -29,12 +29,7 @@
         </ul>
         <b-row>
           <b-col xs="12">
-            <b-button
-              class="buttons"
-              variant="Light"
-              v-if="mode === 'save'"
-              @click="save"
-            >
+            <b-button class="buttons" variant="Light" @click="save">
               CONCLUIR
             </b-button>
           </b-col>
@@ -49,20 +44,12 @@ import { showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
 
 export default {
-  name: 'answers',
+  name: 'Financas',
   data: function () {
     return {
       mode: 'save',
       answer: {},
       answers: [],
-      responses: [
-        // { answer: 'Sim', questionId: 6 },
-        // { answer: 'Não', questionId: 7 },
-        // { answer: 'Sim', questionId: 8 },
-        // { answer: 'Talvez', questionId: 9 },
-        // { answer: 'Sim', questionId: 10 },
-        { answer: 'Sim', questionId: 18 },
-      ],
     };
   },
   methods: {
@@ -96,14 +83,32 @@ export default {
     save() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
+      // console.log(
+      //   'question',
+      //   this.answers.questions.map((question) => {
+      //     return {
+      //       answer: question.answer,
+      //       questionId: question.id,
+      //     };
+      //   })
+      // );
+      const dataToSend = {
+        responses: this.answers.questions.map((question) => {
+          return {
+            answer: question.answer,
+            questionId: question.id,
+          };
+        }),
+      };
+
       request()
-        .post(`http://localhost:3000/answer/${companyId}`, this.responses)
+        .post(`http://localhost:3000/answer/${companyId}`, dataToSend)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
         })
         .catch(showError);
-      console.log('Enviando Dados', this.responses);
+      // console.log('Enviando Dados', this.dataToSend);
     },
     loadanswer(answer, mode = 'save') {
       this.mode = mode;

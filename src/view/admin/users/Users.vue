@@ -195,9 +195,9 @@
 </template>
 
 <script>
-import { baseApiUrl, showError } from '@/global';
+import { baseApiUrl, showError, userKey } from '@/global';
 import axios from 'axios';
-// import { request } from '@/config/services/request';
+import { request } from '@/config/services/request';
 
 export default {
   name: 'Users',
@@ -228,7 +228,7 @@ export default {
       users: [],
       fields: [
         { key: 'userId', label: '#', sortable: true },
-        { key: 'user.name', label: 'Nome', sortable: true },
+        { key: 'name', label: 'Nome', sortable: true },
         { key: 'email', label: 'E-mail', sortable: true },
         { key: 'cpf', label: 'CPF', sortable: true },
         { key: 'actions', label: 'Ações' },
@@ -236,24 +236,33 @@ export default {
     };
   },
   methods: {
-    // loadUsers() {
-    //   axios.get(`http://localhost:3000/user/2`).then((res) => {
-    //     this.user = res.data;
-    //   });
-    //   console.log('Usuarios', this.users);
-    // },
-
     loadUsers() {
-      const url = `${baseApiUrl}/user/${1}`;
-      console.log('Usuarios', this.user);
-      axios.get(url).then((res) => {
-        this.users = res.data;
-      });
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .get(`http://localhost:3000/user/${companyId}`)
+        .then((res) => {
+          this.user = res.data;
+
+          console.log('Usuarios', this.users);
+        });
+    },
+    loadStates() {
+      // const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      // const companyId = localStorageData.user.companyId;
+      request()
+        .get(` http://localhost:3000/address/states `)
+        .then((res) => {
+          this.states = res.data;
+
+          console.log('States', this.states);
+        });
     },
     reset() {
       this.mode = 'save';
       this.user = {};
       this.loadUsers();
+      this.loadStates();
     },
 
     save() {
@@ -283,6 +292,7 @@ export default {
   },
   mounted() {
     this.loadUsers();
+    this.loadStates();
   },
 };
 </script>

@@ -57,14 +57,6 @@ export default {
       mode: 'save',
       answer: {},
       answers: [],
-      responses: [
-        { answer: 'Sim', questionId: 19 },
-        { answer: 'Não', questionId: 20 },
-        { answer: 'Sim', questionId: 21 },
-        { answer: 'Talvez', questionId: 22 },
-        { answer: 'Sim', questionId: 23 },
-        { answer: 'Sim', questionId: 24 },
-      ],
     };
   },
   methods: {
@@ -93,14 +85,22 @@ export default {
     save() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
+      const dataToSend = {
+        responses: this.answers.questions.map((question) => {
+          return {
+            answer: question.answer,
+            questionId: question.id,
+          };
+        }),
+      };
       request()
-        .post(`http://localhost:3000/answer/${companyId}`, this.responses)
+        .post(`http://localhost:3000/answer/${companyId}`, dataToSend)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
         })
         .catch(showError);
-      console.log('Enviando Dados', this.responses);
+      // console.log('Enviando Dados', this.dataToSend);
     },
 
     loadanswer(answer, mode = 'save') {

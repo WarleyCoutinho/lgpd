@@ -148,9 +148,7 @@ export default {
   computed: mapState(['user']),
   data() {
     return {
-      statistics: {
-        completePercentage: 0,
-      },
+      statistics: 0,
 
       // financia: [33],
       // financias: {
