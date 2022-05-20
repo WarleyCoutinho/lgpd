@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Auth from '@/components/auth/Login';
 import { userKey } from '@/global';
 import Users from '/src/view/admin/users/HeaderTitle';
+import NewPerson from '/src/view/admin/people/HeaderTitle';
 import Inicio from '/src/home/Inicio';
 import PrimeiraPagina from '/src/home/PrimeiraPagina';
 import Financas from '/src/view/financas/Financas';
@@ -26,6 +27,12 @@ const routes = [
     name: 'users',
     path: '/users',
     component: Users,
+    // meta: { requiresAdmin: true },
+  },
+  {
+    name: 'newPerson',
+    path: '/newPerson',
+    component: NewPerson,
     // meta: { requiresAdmin: true },
   },
   {

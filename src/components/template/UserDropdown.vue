@@ -12,7 +12,10 @@
     </div>
     <div class="user-dropdown-content">
       <router-link to="/users">
-        <i class="fa fa-users"></i> Usuários
+        <i class="fa fa-plus-circle"></i> Novos Usuários
+      </router-link>
+      <router-link to="/newPerson">
+        <i class="fa fa-address-book"></i> Meus Dados
       </router-link>
       <a href @click.prevent="logout"> <i class="fa fa-sign-out"></i> Sair </a>
     </div>

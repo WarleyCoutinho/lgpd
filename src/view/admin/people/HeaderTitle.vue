@@ -2,27 +2,23 @@
   <div class="container">
     <hr class="hr" />
     <b-col md sm="12" class="mt-4">
-      <PageTitle
-        icon="fa fa-cogs"
-        main=" Cria outros usuários"
-        sub=" Novos usuários"
-      />
+      <PageTitle icon="fa fa-sitemap" main="Meus Dados" sub="Dados Pessoais" />
     </b-col>
     <div>
-      <Users />
+      <NewPerson />
     </div>
   </div>
 </template>
 
 <script>
 import PageTitle from '../../../components/template/PageTitle';
-import Users from './Users';
+import NewPerson from './NewPerson';
 
 export default {
   name: 'HeaderTitle',
   components: {
     PageTitle,
-    Users,
+    NewPerson,
   },
 };
 </script>

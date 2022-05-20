@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { showError, userKey } from '@/global';
+import { baseApiUrl, showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
 
 export default {
@@ -62,12 +62,11 @@ export default {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
       request()
-        .get(`http://localhost:3000/answer/${companyId}`)
+        .get(`${baseApiUrl}/answer/${companyId}`)
         .then((res) => {
           const comercialQuestions = res.data.find(
             (item) => item.department == 'Comercial'
           );
-          console.log('Trazendo dados', res, comercialQuestions);
           comercialQuestions.questions = comercialQuestions.questions.sort(
             (a, b) => {
               if (a.id > b.id) return 1;
@@ -97,13 +96,12 @@ export default {
         }),
       };
       request()
-        .post(`http://localhost:3000/answer/${companyId}`, dataToSend)
+        .post(`${baseApiUrl}/answer/${companyId}`, dataToSend)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
         })
         .catch(showError);
-      // console.log('Enviando Dados', this.dataToSend);
     },
     loadanswer(answer, mode = 'save') {
       this.mode = mode;

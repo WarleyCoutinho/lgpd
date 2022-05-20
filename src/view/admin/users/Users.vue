@@ -3,7 +3,6 @@
     <hr />
     <b-form>
       <input type="hidden" id="user-id" v-model="user.userId" />
-      <!-- <b-card> -->
       <b-row>
         <b-col md="6" sm="12">
           <b-form-group label="Nome:" label-for="user-name">
@@ -48,118 +47,7 @@
           </b-form-group>
         </b-col>
       </b-row>
-      <!-- </b-card>
-      <b-card> -->
-      <b-row>
-        <b-col md="6" sm="12">
-          <b-form-group label="Empresa:" label-for="company-name">
-            <b-form-input
-              id="company-name"
-              type="text"
-              v-model="this.name"
-              placeholder="Informe o nome da empresa"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="6" sm="12">
-          <b-form-group label="CNPJ:" label-for="company-cnpj">
-            <b-form-input
-              id="company-cnpj"
-              type="text"
-              v-model="user.cnpj"
-              placeholder="Informe o cnpj da empresa"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <!-- </b-card>
-      <b-card> -->
-      <b-row>
-        <b-col md="4" sm="12">
-          <b-form-group label="RUA:" label-for="company-address-street">
-            <b-form-input
-              id="company-street"
-              type="text"
-              v-model="user.street"
-              placeholder="Informe o nome da rua"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4" sm="12">
-          <b-form-group label="CEP:" label-for="company-address-zipCode">
-            <b-form-input
-              id="company-zipCode"
-              type="text"
-              v-model="user.zipCode"
-              placeholder="Informe o cep"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4" sm="12">
-          <b-form-group
-            label="Bairro:"
-            label-for="company-address-neighborhood"
-          >
-            <b-form-input
-              id="company-neighborhood"
-              type="text"
-              v-model="user.neighborhood"
-              placeholder="Informe seu bairro"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="3" sm="12">
-          <b-form-group
-            label="N° Casa:"
-            label-for="company-address-numberHouse"
-          >
-            <b-form-input
-              id="company-numberHouse"
-              type="text"
-              v-model="user.numberHouse"
-              placeholder="Informe o numero da casa"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="3" sm="12">
-          <b-form-group
-            label="Complemento:"
-            label-for="company-address-complemento"
-          >
-            <b-form-input
-              id="company-complemento"
-              type="text"
-              v-model="user.complemento"
-              placeholder="Complemento"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="3" sm="12">
-          <b-form-group
-            label="Ponto de Referência:"
-            label-for="company-address-referencePoint"
-          >
-            <b-form-input
-              id="company-referencePoint"
-              type="text"
-              v-model="user.referencePoint"
-              placeholder="informe um ponto de referência"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="3" sm="12">
-          <b-form-group label="Cidade:" label-for="company-address-cityId">
-            <b-form-select
-              id="company-address-cityId"
-              :options="cityId"
-              v-model="user.cityId"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <!-- </b-card> -->
+      <hr />
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save">
@@ -172,31 +60,11 @@
         </b-col>
       </b-row>
     </b-form>
-    <hr />
-    <b-table
-      hover
-      striped
-      small
-      sort-icon-left
-      head-variant="dark"
-      :items="users"
-      :fields="fields"
-    >
-      <template v-slot:cell(actions)="data">
-        <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
-          <i class="fa fa-pencil"></i>
-        </b-button>
-        <b-button variant="danger" @click="loadUser(data.item, 'remove')">
-          <i class="fa fa-trash"></i>
-        </b-button>
-      </template>
-    </b-table>
   </div>
 </template>
 
 <script>
 import { baseApiUrl, showError, userKey } from '@/global';
-import axios from 'axios';
 import { request } from '@/config/services/request';
 
 export default {
@@ -204,84 +72,53 @@ export default {
   data: function () {
     return {
       mode: 'save',
-      //corpo pra cadastrar os usuario
-      // {
-      // 	"name": "seu nome",
-      // 	"email": "email@email.com",
-      // 	"password": "1234",
-      // 	"cpf": "123.456.789-99",
-      // 	"company": {
-      // 		"name": "teste ltda",
-      // 		"cnpj": "112345676543",
-      // 		"address": {
-      // 			"street": "teste",
-      // 			"zipCode": "123456",
-      // 			"neighborhood": "teste",
-      // 			"numberHouse": "120",
-      // 			"complemento": "bloco bloco",
-      // 			"referencePoint": "123",
-      // 			"cityId": 50
-      // 		}
-      // 	}
-      // }
       user: {},
       users: [],
-      fields: [
-        { key: 'userId', label: '#', sortable: true },
-        { key: 'name', label: 'Nome', sortable: true },
-        { key: 'email', label: 'E-mail', sortable: true },
-        { key: 'cpf', label: 'CPF', sortable: true },
-        { key: 'actions', label: 'Ações' },
-      ],
     };
   },
   methods: {
     loadUsers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const companyId = localStorageData.user.companyId;
+      const id = localStorageData.user.id;
       request()
-        .get(`http://localhost:3000/user/${companyId}`)
+        .get(`${baseApiUrl}/user/${id}`)
         .then((res) => {
           this.user = res.data;
-
           console.log('Usuarios', this.users);
-        });
-    },
-    loadStates() {
-      // const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      // const companyId = localStorageData.user.companyId;
-      request()
-        .get(` http://localhost:3000/address/states `)
-        .then((res) => {
-          this.states = res.data;
-
-          console.log('States', this.states);
         });
     },
     reset() {
       this.mode = 'save';
       this.user = {};
       this.loadUsers();
-      this.loadStates();
     },
-
     save() {
-      const method = this.user.userId ? 'put' : 'post';
-      const companyId = this.user.userId ? `/${this.user.userId}` : '';
-      axios[method](`${baseApiUrl}/user${companyId}`, this.user)
-        .then(() => {
-          this.$toasted.global.defaultSuccess();
-          this.reset();
+      console.log(
+        ' newusers',
+        this.user.map((user) => {
+          return {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            cpf: user.cpf,
+          };
         })
-        .catch(showError);
-    },
-    remove() {
-      const companyId = this.user;
-      axios
-        .delete(`${baseApiUrl}/user/${companyId}`)
-        .then(() => {
-          this.$toasted.global.defaultSuccess();
-          this.reset();
+      );
+      const dataToSendNewUsers = {
+        newusers: this.user.name.map((user) => {
+          return {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            cpf: user.cpf,
+          };
+        }),
+      };
+      request()
+        .put(`${baseApiUrl}/user/create-other`, dataToSendNewUsers)
+        .then((res) => {
+          this.user = res.data;
+          console.log('New Users', this.dataToSendNewUsers);
         })
         .catch(showError);
     },
@@ -292,7 +129,6 @@ export default {
   },
   mounted() {
     this.loadUsers();
-    this.loadStates();
   },
 };
 </script>
