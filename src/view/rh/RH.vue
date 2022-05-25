@@ -4,7 +4,7 @@
     <input type="hidden" v-model="answer.answerId" />
     <b-row>
       <b-col md="6" sm="12" class="seccão01">
-        <div id="secao">R.H</div>
+        <div id="secao">{{ department }}</div>
         <input type="hidden" v-model="answer.id" />
         <b-row>
           <div id="Ellipse7">
@@ -53,11 +53,32 @@ export default {
   data: function () {
     return {
       mode: 'save',
+      department: {},
       answer: {},
       answers: [],
     };
   },
   methods: {
+    getDepartmentRH() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          // this.department = res.data[1];
+          res.data.map((data) => {
+            res.data = data.department;
+            return data;
+          });
+          this.department = res.data;
+          console.log('Departamento', this.department);
+        });
+    },
     loadanswers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
@@ -107,6 +128,7 @@ export default {
   },
   mounted() {
     this.loadanswers();
+    this.getDepartmentRH();
   },
 };
 </script>

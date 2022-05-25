@@ -17,11 +17,7 @@
           </div>
         </div>
         <div class="column2">
-          <div>
-            <h5 id="textoTitulo">Duvidas frequentes</h5>
-            <h2 class="textoMeio">Por que devo me preocupar com a LGPD?</h2>
-            <a href="/" class="title5">Ver todas as perguntas</a>
-          </div>
+          <div></div>
         </div>
       </div>
     </b-row>
@@ -32,7 +28,7 @@
             <h4 class="column4">Testes recentes</h4>
           </div>
           <div>
-            <h4 class="column5">Ver tudo -></h4>
+            <h4 class="column5">Ver tudo <i class="fa fa-arrow-right"> </i></h4>
           </div>
         </b-row>
       </ul>
@@ -50,18 +46,20 @@
       <b-row id="card01">
         <div>
           <b-col md="12" sm="12" class="">
-            <div>
-              <p>
-                Para iniciar o teste, primeiro adicione um departamento. Quando
-                adicionar um departamento, poderá escolher iniciar o teste ou
-                gerenciar outros departamentos.
+            <div id="divparagrafos">
+              <p id="p1">
+                Para iniciar o teste, primeiro adicione um departamento.
+              </p>
+              <p id="p2">
+                Quando adicionar um departamento, poderá escolher iniciar o
+                teste ou gerenciar outros departamentos.
               </p>
             </div>
           </b-col>
         </div>
       </b-row>
       <b-row>
-        <div>
+        <div id="botaoDP">
           <b-col md="12" sm="12" class="">
             <div id="irDepartamentos">
               <h1 id="titulo">Ir para Departamentos</h1>
@@ -98,11 +96,41 @@ export default {
 </script>
 
 <style scoped>
+#botaoDP {
+  margin-top: 60px;
+}
+#container {
+  margin-left: 38px;
+}
+
+#p1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.column1 {
+  background-color: #263238;
+  width: 800px;
+  height: 250px;
+  display: flex;
+}
+.column4 {
+  margin-top: 40px;
+  margin-left: 30px;
+  color: #000;
+  margin-right: 790px;
+}
+.column5 {
+  color: #000;
+  margin-left: 20px;
+  margin-top: 40px;
+  text-align: end;
+}
 #card {
   width: 704px;
-  height: 96px;
+  height: 330px;
   left: 08px;
-  top: 96px;
+  top: 40px;
 
   /* H5 */
 
@@ -171,7 +199,7 @@ export default {
 
   height: 56px;
   left: 3px;
-  top: 40px;
+  top: 250px;
 
   /* Blue Grey 900 */
 
@@ -181,6 +209,7 @@ export default {
 #titulo {
   width: 198px;
   height: 24px;
+  margin-top: 12px;
 
   /* H5 (Bold) */
 

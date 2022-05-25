@@ -3,9 +3,10 @@ import { baseApiUrl } from '@/global';
 
 export function request() {
   const headers = {};
-
-  if ('auth-token' in localStorage) {
-    headers['authorization'] = `Bearer ${localStorage.getItem('auth-token')}`;
+  const user = localStorage.getItem('__lgpd');
+  if (user) {
+    const userParsed = JSON.parse(user);
+    headers['authorization'] = `Bearer ${userParsed.token}`;
   }
 
   return axios.create({

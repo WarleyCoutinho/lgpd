@@ -126,7 +126,7 @@
             <b-form-input
               id="company-complemento"
               type="text"
-              v-model="address.complemento"
+              v-model="address.complement"
               placeholder="Complemento"
             />
           </b-form-group>
@@ -197,7 +197,7 @@ import { baseApiUrl, showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
 
 export default {
-  name: 'NewPerson',
+  name: 'PersonalData',
   props: {
     stateId: {
       type: Number,
@@ -229,10 +229,13 @@ export default {
         .get(`${baseApiUrl}/user/${id}`)
         .then((res) => {
           this.user = res.data;
-          console.log('Usuarios', this.users);
+          // console.log('Usuarios', this.users);
         });
     },
     getStates() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const id = localStorageData.user.id;
+      console.log(id);
       return request()
         .get(`${baseApiUrl}/address/states`)
         .then((res) => {
@@ -249,6 +252,9 @@ export default {
     },
 
     getCities() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const id = localStorageData.user.id;
+      console.log(id);
       if (!this.stateSelected.id) {
         return false;
       }
@@ -271,33 +277,37 @@ export default {
     },
 
     save() {
-      console.log(
-        'creatingUser',
-        this.name.map((user) => {
-          return {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            cpf: user.cpf,
-            // falta addicionar mais o corpo ainda
-          };
-        })
-      );
-
+      // const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      // const id = localStorageData.user.id;
+      // console.log(id);
+      // console.log('user', this.company);
       const dataToSendUsers = {
-        creatingUser: this.user.map((user) => {
-          return {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            cpf: user.cpf,
-            // falta addicionar mais o corpo ainda
-          };
-        }),
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password,
+        cpf: this.user.cpf,
+        company: {
+          name: this.company.name,
+          cnpj: this.company.cnpj,
+          address: {
+            street: this.address.street,
+            zipCode: this.address.zipCode,
+            neighborhood: this.address.neighborhood,
+            numberHouse: this.address.numberHouse,
+            complement: this.address.complement,
+            referencePoint: this.address.referencePoint,
+            cityId: this.citySelected.id,
+          },
+        },
       };
+
+      // console.log('dataToSendUsers', dataToSendUsers);
+
       request()
         .post(`${baseApiUrl}/user`, dataToSendUsers)
         .then((res) => {
+          this.$toasted.global.defaultSuccess();
+          this.reset();
           this.user = res.data;
           console.log('Criar Pessoa', this.dataToSendUser);
         })

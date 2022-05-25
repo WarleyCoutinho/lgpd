@@ -17,7 +17,7 @@
         <div id="menu-items" :class="{ active: menuActive }">
           <img id="menu-logo" alt="TCC Logo" src="../../assets/Logotipo.svg" />
 
-          <ul>
+          <ul id="topBar">
             <li v-on:click="closeMenu" id="Inicio">
               <router-link to="/inicio">Inicio</router-link>
             </li>
@@ -32,7 +32,7 @@
             <li v-on:click="closeMenu" id="Sobre">
               <router-link to="/sobre">Sobre</router-link>
             </li>
-            <li>
+            <li id="userFoto">
               <UserDropdown v-if="!hideUserDropdown" />
             </li>
           </ul>
@@ -105,7 +105,7 @@ nav {
 
   /* position: absolute; */
   left: 12.5%;
-  right: 78.91%;
+
   top: 25%;
   bottom: 26%;
 
@@ -195,11 +195,14 @@ ul li:last-child a {
   float: right;
   background-color: rgb(24, 139, 233);
 }
+#userFoto {
+  margin-left: 145px;
+}
 #Inicio {
   /* Início */
 
   /* position: absolute; */
-  left: 37.5%;
+  margin-left: -200px;
   right: 60%;
   top: 38%;
   bottom: 38%;

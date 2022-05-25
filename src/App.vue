@@ -31,7 +31,7 @@ export default {
       this.$store.commit('setUser', null);
       if (!userData) {
         this.checkToken = true;
-        this.$router.push({ name: 'auth' });
+        this.$router.push({ name: 'login' });
         return true;
       }
       const res = await request().post(
@@ -42,7 +42,7 @@ export default {
         this.$store.commit('setUser', userData);
       } else {
         localStorage.removeItem(userKey);
-        this.$router.push({ name: 'auth' });
+        this.$router.push({ name: 'login' });
       }
       this.checkToken = false;
       return false;

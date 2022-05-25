@@ -9,12 +9,15 @@
     </div>
     <b-row>
       <div id="container">
-        <div class="column1">
+        <div id="column1">
           <!-- <img id="foto1" src="../assets/75.png" alt="48" /-->
 
-          <b-row id="statistics">
+          <b-row id="statisticsCompany">
             <section>
-              <h1>{{ parseInt(statistics.completePercentage).toFixed(0) }}%</h1>
+              <h1>
+                {{ parseInt(statisticsCompany.completePercentage).toFixed(0) }}
+                %
+              </h1>
             </section>
           </b-row>
           <!-- <apexchart
@@ -28,21 +31,17 @@
           <div>
             <h2 class="textoMeio2">
               Sua empresa está
-              {{ parseInt(statistics.completePercentage).toFixed(0) }}% dentro
-              da LGPD
+              {{ parseInt(statisticsCompany.completePercentage).toFixed(0) }} %
+              dentro da LGPD
             </h2>
             <h5 id="title6">
               <a href="/financas"> <h5 id="verDetalhes">Ver detalhes</h5></a>
             </h5>
           </div>
         </div>
-        <b-col> </b-col>
+
         <div class="column2">
-          <div>
-            <h5 id="textoTitulo">Duvidas frequentes</h5>
-            <h2 class="textoMeio">Por que devo me preocupar com a LGPD?</h2>
-            <a href="/" class="title5">Ver todas as perguntas</a>
-          </div>
+          <div></div>
         </div>
       </div>
       <div id="container1">
@@ -52,7 +51,9 @@
               <h4 class="column4">Testes recentes</h4>
             </div>
             <div>
-              <h4 class="column5">Ver tudo -></h4>
+              <h4 class="column5">
+                Ver tudo <i class="fa fa-arrow-right"> </i>
+              </h4>
             </div>
           </b-row>
         </ul>
@@ -61,14 +62,17 @@
     <b-row>
       <div class="container2">
         <div class="box">
-          <h3 id="title">Finanças</h3>
+          <h3 class="title1">Finanças</h3>
           <li>
             <!-- <img id="foto1" src="../assets/48.png" alt="48" /> -->
 
-            <b-row id="statistics1">
+            <b-row id="statisticsFinanceiro">
               <section>
                 <h1>
-                  {{ parseInt(statistics.completePercentage).toFixed(0) }}%
+                  {{
+                    parseInt(statisticsFinanceiro.completePercentage).toFixed(0)
+                  }}
+                  %
                 </h1>
               </section>
             </b-row>
@@ -87,7 +91,7 @@
           </li>
         </div>
         <div class="box">
-          <h3 id="title">T.I</h3>
+          <h3 class="title1">T.I</h3>
           <li>
             <!-- <img id="foto1" src="../assets/66.png" alt="48" /> -->
             <apexchart
@@ -102,32 +106,49 @@
           </li>
         </div>
         <div class="box">
-          <h3 id="title">Marketing</h3>
+          <h3 class="title1">Marketing</h3>
           <li>
             <!-- <img id="foto1" src="../assets/72.png" alt="48" /> -->
-            <apexchart
+            <!-- <apexchart
               id="marketing"
               class="marketing"
               type="radialBar"
               height="220"
               :options="marketing"
               :series="marketings"
-            />
+            /> -->
+            <b-row id="statisticsMarketing">
+              <section>
+                <h1>
+                  {{
+                    parseInt(statisticsMarketing.completePercentage).toFixed(0)
+                  }}
+                  %
+                </h1>
+              </section>
+            </b-row>
             <a href="/marketing"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
         <div class="box">
-          <h3 id="title">R.H.</h3>
+          <h3 class="title1">R.H.</h3>
           <li>
             <!-- <img id="foto1" src="../assets/89.png" alt="48" /> -->
-            <apexchart
+            <!-- <apexchart
               id="rh"
               class="rh"
               type="radialBar"
               height="220"
               :options="rhs"
               :series="rh"
-            />
+            /> -->
+            <b-row id="statisticsRH">
+              <section>
+                <h1>
+                  {{ parseInt(statisticsRH.completePercentage).toFixed(0) }} %
+                </h1>
+              </section>
+            </b-row>
             <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
           </li>
         </div>
@@ -148,7 +169,11 @@ export default {
   computed: mapState(['user']),
   data() {
     return {
-      statistics: 0,
+      statisticsCompany: 0,
+      statisticsMarketing: 0,
+      statisticsFinanceiro: 0,
+      statisticsRH: 0,
+      statisticsTI: 0,
 
       // financia: [33],
       // financias: {
@@ -228,10 +253,10 @@ export default {
     };
   },
   methods: {
-    loadanswers() {
+    getstatisticsCompanyCompany() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      console.log(companyId);
+      // console.log(companyId);
 
       request()
         .get(
@@ -239,22 +264,12 @@ export default {
           this.answer
         )
         .then((res) => {
-          this.statistics = res.data[0];
+          this.statisticsCompany = res.data[0];
+          console.log('Toda a Empresa', this.statisticsCompany);
         });
-    },
-    logout() {
-      this.$store.commit('setUser', null);
-      this.$router.push({ name: 'auth' });
-    },
-    async valueChart() {
-      let companyId = [];
-      companyId = statistics;
-
-      const statistics = await this.mxGetAnswerStatistics(companyId);
       this.series = [
         {
-          name: '%',
-          data: [this.parseInt(statistics.completePercentage)],
+          data: [],
         },
       ];
       this.chartOptions = {
@@ -271,10 +286,77 @@ export default {
         },
       };
     },
+    getstatisticsMarketing() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      // console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statisticsMarketing = res.data[1];
+          console.log('Marketing', this.statisticsMarketing);
+        });
+    },
+    getstatisticsFinanceiro() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      // console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statisticsFinanceiro = res.data[2];
+          console.log('Financeiro', this.statisticsFinanceiro);
+        });
+    },
+    getstatisticsRH() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      // console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statisticsRH = res.data[3];
+          console.log('RH', this.statisticsRH);
+        });
+    },
+    getstatisticsTI() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      // console.log(companyId);
+
+      request()
+        .get(
+          `http://localhost:3000/answer/${companyId}/statistics`,
+          this.answer
+        )
+        .then((res) => {
+          this.statisticsTI = res.data[4];
+          console.log('TI', this.statisticsTI);
+        });
+    },
+    logout() {
+      this.$store.commit('setUser', null);
+      this.$router.push({ name: 'auth' });
+    },
   },
   mounted() {
-    this.loadanswers();
-    this.valueChart();
+    this.getstatisticsCompanyCompany();
+    this.getstatisticsMarketing();
+    this.getstatisticsFinanceiro();
+    this.getstatisticsRH();
+    this.getstatisticsTI();
   },
 };
 </script>
@@ -303,29 +385,51 @@ li {
   width: 200px;
   height: 200px;
 }
-
 #container {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
 }
-#statistics {
+#statisticsCompany {
   margin-top: 100px;
   margin-left: 40px;
   width: 400px;
   height: 250px;
   color: #eceff1;
 }
-#statistics1 {
+#statisticsMarketing {
   margin-top: 90px;
   margin-left: 35px;
   width: 200px;
   height: 120px;
   color: #0a0a0a;
 }
-.column1 {
+#statisticsFinanceiro {
+  margin-top: 90px;
+  margin-left: 35px;
+  width: 200px;
+  height: 120px;
+  color: #0a0a0a;
+}
+#statisticsRH {
+  margin-top: 90px;
+  margin-left: 35px;
+  width: 200px;
+  height: 120px;
+  color: #0a0a0a;
+}
+#statisticsTI {
+  margin-top: 90px;
+  margin-left: 35px;
+  width: 200px;
+  height: 120px;
+  color: #0a0a0a;
+}
+
+#column1 {
+  margin-left: 35px;
   background-color: #263238;
-  width: 500px;
+  width: 800px;
   height: 250px;
   display: flex;
 }
@@ -337,13 +441,17 @@ li {
 }
 
 .column4 {
-  margin-top: 10px;
+  margin-top: 40px;
+  margin-left: 30px;
+  margin-right: 10px;
   color: #000;
   margin-right: 790px;
 }
 
 .column5 {
   color: #000;
+  margin-left: 30px;
+  margin-top: 40px;
   text-align: end;
 }
 
@@ -381,8 +489,10 @@ li {
 }
 
 .title1 {
-  margin-top: 40px;
-  color: white;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: #000;
+  text-align: center;
 }
 
 #textoTitulo {
@@ -396,15 +506,17 @@ li {
 }
 
 .container2 {
+  margin-left: 35px;
   width: 100vw;
-  height: 100vh;
+  height: 400px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 .box {
-  width: 280px;
+  margin-right: 10px;
+  width: 265px;
   height: 320px;
   border-width: 2px;
   border-style: solid;

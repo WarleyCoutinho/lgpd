@@ -16,48 +16,21 @@
           placeholder="Mia Ribeiro"
         />
       </b-form-group>
-
-      <button @click="signin">Salvar</button>
+      <router-link to="/departamentos">
+        <b-button id="buttons" variant="Light" @click="save">
+          Ir para Departamentos
+        </b-button>
+      </router-link>
+      <b-div>
+        <b-button class="ml-2" variant="Light" @click="save"> Salvar </b-button>
+      </b-div>
     </div>
   </div>
 </template>
 
 <script>
-// import { showError, userKey } from '@/global';
-// import axios from 'axios';
-// import { request } from '../../services/request';
-
 export default {
-  name: 'Login',
-  // data: function () {
-  //   return {
-  //     showSignup: false,
-  //     user: {},
-  //   };
-  // },
-  // methods: {
-  //   signin() {
-  //     request()
-  //       .post('/login', this.user)
-  //       .then((res) => {
-  //         this.$store.commit('setUser', res.data);
-  //         localStorage.setItem('auth-token', res.data.token);
-  //         localStorage.setItem(userKey, JSON.stringify(res.data));
-  //         this.$router.push({ path: '/' });
-  //       })
-  //       .catch(showError);
-  //   },
-  //   signup() {
-  //     request()
-  //       .post('/login', this.user)
-  //       .then(() => {
-  //         this.$toasted.global.defaultSuccess();
-  //         this.user = {};
-  //         this.showSignup = false;
-  //       })
-  //       .catch(showError);
-  //   },
-  // },
+  name: 'FormDepartamento',
 };
 </script>
 
@@ -90,5 +63,23 @@ export default {
   background-color: #263238;
   padding: 5px 15px;
   border: none;
+}
+#buttons {
+  /* Buttons */
+
+  width: 300px;
+  height: 40px;
+  margin-left: -50px;
+  margin-bottom: 40px;
+  color: black;
+  background-color: #e5e5e5;
+
+  /* H4 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
 }
 </style>

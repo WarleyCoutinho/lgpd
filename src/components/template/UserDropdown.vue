@@ -11,10 +11,13 @@
       <i class="fa fa-angle-down"></i>
     </div>
     <div class="user-dropdown-content">
+      <router-link to="/companyRegistration">
+        <i class="fa fa-address-card-o"></i> Administração
+      </router-link>
       <router-link to="/users">
         <i class="fa fa-plus-circle"></i> Novos Usuários
       </router-link>
-      <router-link to="/newPerson">
+      <router-link to="/personalData">
         <i class="fa fa-address-book"></i> Meus Dados
       </router-link>
       <a href @click.prevent="logout"> <i class="fa fa-sign-out"></i> Sair </a>

@@ -3,7 +3,8 @@ import VueRouter from 'vue-router';
 import Auth from '@/components/auth/Login';
 import { userKey } from '@/global';
 import Users from '/src/view/admin/users/HeaderTitle';
-import NewPerson from '/src/view/admin/people/HeaderTitle';
+import PersonalData from '/src/view/admin/people/HeaderTitle';
+import CompanyRegistration from '/src/view/admin/myBusiness/HeaderTitle';
 import Inicio from '/src/home/Inicio';
 import PrimeiraPagina from '/src/home/PrimeiraPagina';
 import Financas from '/src/view/financas/Financas';
@@ -18,8 +19,8 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    name: 'auth',
-    path: '/auth',
+    name: 'login',
+    path: '/login',
     component: Auth,
   },
 
@@ -30,9 +31,15 @@ const routes = [
     // meta: { requiresAdmin: true },
   },
   {
-    name: 'newPerson',
-    path: '/newPerson',
-    component: NewPerson,
+    name: 'personalData',
+    path: '/personalData',
+    component: PersonalData,
+    // meta: { requiresAdmin: true },
+  },
+  {
+    name: 'companyRegistration',
+    path: '/companyRegistration',
+    component: CompanyRegistration,
     // meta: { requiresAdmin: true },
   },
   {

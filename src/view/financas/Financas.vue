@@ -1,11 +1,9 @@
 <template>
   <div class="container">
     <hr class="hr" />
-    <input type="hidden" v-model="answer.answerId" />
     <b-row>
       <b-col md="6" sm="12" class="seccão01">
-        <div id="secao">Financias</div>
-        <input type="hidden" v-model="answer.id" />
+        <div id="secao">Financeiro => {{ department }}</div>
         <b-row>
           <div id="Ellipse7">
             <b-dd-header></b-dd-header>
@@ -48,11 +46,29 @@ export default {
   data: function () {
     return {
       mode: 'save',
+      department: {},
       answer: {},
       answers: [],
     };
   },
   methods: {
+    getDepartmentFinanceiro() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      // console.log(companyId);
+
+      request()
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
+        .then((res) => {
+          // this.department = res.data[1];
+          res.data.map((data) => {
+            res.data = data.department;
+            return data;
+          });
+          this.department = res.data;
+          console.log('Departamento', this.department);
+        });
+    },
     loadanswers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
@@ -117,6 +133,7 @@ export default {
   },
   mounted() {
     this.loadanswers();
+    this.getDepartmentFinanceiro();
   },
 };
 </script>

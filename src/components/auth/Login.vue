@@ -43,7 +43,8 @@
 
 <script>
 import { baseApiUrl, showError, userKey } from '@/global';
-import axios from 'axios';
+// import axios from 'axios';
+import { request } from '@/config/services/request';
 
 export default {
   name: 'Login',
@@ -55,7 +56,9 @@ export default {
   },
   methods: {
     signin() {
-      axios
+      // axios
+      // .post(`http://localhost:3000/login`, this.user)
+      request()
         .post(`${baseApiUrl}/login`, this.user)
         .then((res) => {
           this.$store.commit('setUser', res.data);
@@ -65,7 +68,8 @@ export default {
         .catch(showError);
     },
     signup() {
-      axios
+      // axios
+      request()
         .post(`${baseApiUrl}/login`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();

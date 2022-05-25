@@ -2,7 +2,6 @@
   <div class="container">
     <hr />
     <b-form>
-      <input type="hidden" id="user-id" v-model="user.userId" />
       <b-row>
         <b-col md="6" sm="12">
           <b-form-group label="Nome:" label-for="user-name">
@@ -64,7 +63,8 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global';
+// import { baseApiUrl, showError, userKey } from '@/global';
+import { baseApiUrl, showError } from '@/global';
 import { request } from '@/config/services/request';
 
 export default {
@@ -73,52 +73,45 @@ export default {
     return {
       mode: 'save',
       user: {},
-      users: [],
+      // users: [],
     };
   },
   methods: {
-    loadUsers() {
-      const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const id = localStorageData.user.id;
-      request()
-        .get(`${baseApiUrl}/user/${id}`)
-        .then((res) => {
-          this.user = res.data;
-          console.log('Usuarios', this.users);
-        });
-    },
+    // loadUsers() {
+    //   const localStorageData = JSON.parse(localStorage.getItem(userKey));
+    //   const id = localStorageData.user.id;
+    //   request()
+    //     .get(`${baseApiUrl}/user/${id}`)
+    //     .then((res) => {
+    //       this.user = res.data;
+    //       console.log('Usuarios', this.users);
+    //     });
+    // },
     reset() {
       this.mode = 'save';
       this.user = {};
-      this.loadUsers();
+      // this.loadUsers();
     },
     save() {
-      console.log(
-        ' newusers',
-        this.user.map((user) => {
-          return {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            cpf: user.cpf,
-          };
-        })
-      );
-      const dataToSendNewUsers = {
-        newusers: this.user.name.map((user) => {
-          return {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            cpf: user.cpf,
-          };
-        }),
+      // const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      // const id = localStorageData.user.id;
+      // console.log(dataToSendUsers);
+      // console.log(id);
+
+      const dataToSendUsers = {
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password,
+        cpf: this.user.cpf,
       };
+
       request()
-        .put(`${baseApiUrl}/user/create-other`, dataToSendNewUsers)
+        .put(`${baseApiUrl}/user/create-other`, dataToSendUsers)
+        // .put(`http://localhost:3000/user/create-other`, dataToSendUsers)
         .then((res) => {
+          this.$toasted.global.defaultSuccess();
+          this.reset();
           this.user = res.data;
-          console.log('New Users', this.dataToSendNewUsers);
         })
         .catch(showError);
     },
@@ -128,7 +121,7 @@ export default {
     },
   },
   mounted() {
-    this.loadUsers();
+    // this.loadUsers();
   },
 };
 </script>
