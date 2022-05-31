@@ -9,40 +9,30 @@
     </div>
     <b-row>
       <div id="container">
-        <div id="column1">
-          <!-- <img id="foto1" src="../assets/75.png" alt="48" /-->
-
-          <b-row id="statisticsCompany">
-            <section>
-              <h1>
-                {{ parseInt(statisticsCompany.completePercentage).toFixed(0) }}
-                %
-              </h1>
-            </section>
-          </b-row>
-          <!-- <apexchart
-            id="financia"
+        <div class="column1">
+          <apexchart
+            id="statisticsCompany"
             type="radialBar"
             height="220"
-            :options="chartOptions"
-            :series="series"
-          /> -->
+            :options="Company"
+            :series="Companys"
+          />
 
           <div>
             <h2 class="textoMeio2">
-              Sua empresa está
+              Sua empresa <br />está
               {{ parseInt(statisticsCompany.completePercentage).toFixed(0) }} %
-              dentro da LGPD
+              dentro <br />da LGPD
             </h2>
-            <h5 id="title6">
-              <a href="/financas"> <h5 id="verDetalhes">Ver detalhes</h5></a>
-            </h5>
+            <div id="title66">
+              <h5><a href="/inicio" class="title6">Ver detalhes</a></h5>
+            </div>
           </div>
         </div>
-
+        <!-- 
         <div class="column2">
           <div></div>
-        </div>
+        </div> -->
       </div>
       <div id="container1">
         <ul>
@@ -50,115 +40,80 @@
             <div>
               <h4 class="column4">Testes recentes</h4>
             </div>
-            <div>
-              <h4 class="column5">
-                Ver tudo <i class="fa fa-arrow-right"> </i>
-              </h4>
+            <div class="column5">
+              <router-link to="/departamentos">
+                <h4 class="column55">
+                  Ver tudo
+                  <i class="fa fa-arrow-right"> </i>
+                </h4>
+              </router-link>
             </div>
           </b-row>
         </ul>
       </div>
     </b-row>
+
     <b-row>
       <div class="container2">
-        <div class="box">
-          <h3 class="title1">Finanças</h3>
-          <li>
-            <!-- <img id="foto1" src="../assets/48.png" alt="48" /> -->
+        <b-row>
+          <div class="box">
+            <h3 class="title1">Finanças</h3>
 
-            <b-row id="statisticsFinanceiro">
-              <section>
-                <h1>
-                  {{
-                    parseInt(statisticsFinanceiro.completePercentage).toFixed(0)
-                  }}
-                  %
-                </h1>
-              </section>
-            </b-row>
-            <!-- <apexchart
-              id="financia"
-              class="financia"
-              type="radialBar"
-              height="220"
-              :options="financias"
-              :series="financia"
-            /> -->
-            <!-- para mostrar o grafico decomenta esse codigo acima 
-            e comenta o de cima a section
-            -->
-            <a href="/financas"><h4 id="title">Ver detalhes</h4></a>
-          </li>
-        </div>
-        <div class="box">
-          <h3 class="title1">T.I</h3>
-          <li>
-            <!-- <img id="foto1" src="../assets/66.png" alt="48" /> -->
             <apexchart
-              id="ti"
-              class="ti"
+              id="statisticsFinanceiro"
               type="radialBar"
               height="220"
-              :options="ti"
-              :series="tis"
+              :options="Financeiro"
+              :series="Financeiros"
             />
-            <a href="/ti"><h4 id="title">Ver detalhes</h4></a>
-          </li>
-        </div>
-        <div class="box">
-          <h3 class="title1">Marketing</h3>
-          <li>
-            <!-- <img id="foto1" src="../assets/72.png" alt="48" /> -->
-            <!-- <apexchart
-              id="marketing"
-              class="marketing"
+
+            <a href="/financas"><h4 class="title">Ver detalhes</h4></a>
+          </div>
+          <div class="box">
+            <h3 class="title1">T.I</h3>
+
+            <apexchart
+              id="statisticsTI"
               type="radialBar"
               height="220"
-              :options="marketing"
-              :series="marketings"
-            /> -->
-            <b-row id="statisticsMarketing">
-              <section>
-                <h1>
-                  {{
-                    parseInt(statisticsMarketing.completePercentage).toFixed(0)
-                  }}
-                  %
-                </h1>
-              </section>
-            </b-row>
-            <a href="/marketing"><h4 id="title">Ver detalhes</h4></a>
-          </li>
-        </div>
-        <div class="box">
-          <h3 class="title1">R.H.</h3>
-          <li>
-            <!-- <img id="foto1" src="../assets/89.png" alt="48" /> -->
-            <!-- <apexchart
-              id="rh"
-              class="rh"
+              :options="Ti"
+              :series="Tis"
+            />
+            <a href="/ti"><h4 class="title">Ver detalhes</h4></a>
+          </div>
+
+          <div class="box">
+            <h3 class="title1">Marketing</h3>
+
+            <apexchart
+              id="statisticsMarketing"
               type="radialBar"
               height="220"
-              :options="rhs"
-              :series="rh"
-            /> -->
-            <b-row id="statisticsRH">
-              <section>
-                <h1>
-                  {{ parseInt(statisticsRH.completePercentage).toFixed(0) }} %
-                </h1>
-              </section>
-            </b-row>
-            <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
-          </li>
-        </div>
+              :options="Marketing"
+              :series="Marketings"
+            />
+            <a href="/marketing"><h4 class="title">Ver detalhes</h4></a>
+          </div>
+          <div class="box">
+            <h3 class="title1">R.H.</h3>
+
+            <apexchart
+              id="statisticsRH"
+              type="radialBar"
+              height="220"
+              :options="RH"
+              :series="RHS"
+            />
+            <a href="/rh"><h4 class="title">Ver detalhes</h4></a>
+          </div>
+        </b-row>
       </div>
     </b-row>
   </div>
 </template>
 
 <script>
-import { userKey } from '@/global';
+import { baseApiUrl, userKey } from '@/global';
 import { request } from '@/config/services/request';
 
 import { mapState } from 'vuex';
@@ -169,190 +124,399 @@ export default {
   computed: mapState(['user']),
   data() {
     return {
-      statisticsCompany: 0,
-      statisticsMarketing: 0,
-      statisticsFinanceiro: 0,
-      statisticsRH: 0,
-      statisticsTI: 0,
-
-      // financia: [33],
-      // financias: {
-      //   chart: {
-      //     height: 350,
-      //     type: 'radialBar',
-      //     color: '#52B12C',
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%',
-      //       },
-      //     },
-      //   },
-      //   colors: ['#000000'],
-      //   labels: [''],
-      // },
-      // financias
-      // TI
-      tis: [66],
-      ti: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  TI
-      // Marketing
-      marketings: [99],
-      marketing: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  Marketing
-      // R.H
-      rh: [89],
-      rhs: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: [''],
-      },
-      //  R.H
+      statisticsCompany: {},
+      Company: {},
+      Companys: [],
+      companyData: 0,
+      Marketing: {},
+      Marketings: [],
+      marketingData: 0,
+      Financeiro: {},
+      Financeiros: [],
+      financesData: 0,
+      RH: {},
+      RHS: [],
+      rhData: 0,
+      Ti: {},
+      Tis: [],
+      tiData: 0,
     };
   },
   methods: {
-    getstatisticsCompanyCompany() {
+    getstatisticsCompany() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
-
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
           this.statisticsCompany = res.data[0];
-          console.log('Toda a Empresa', this.statisticsCompany);
+          this.Company = res.data[0];
+          this.companyData = res.data[0].completePercentage;
+
+          (this.Companys = [`${parseInt(this.companyData.toFixed(0))} `]),
+            (this.Company = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#263238',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#263238',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#FFFFFF',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#FFFFFF'],
+              labels: [''],
+            });
         });
-      this.series = [
-        {
-          data: [],
-        },
-      ];
-      this.chartOptions = {
-        chart: {
-          height: 220,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-      };
     },
     getstatisticsMarketing() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
 
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsMarketing = res.data[1];
-          console.log('Marketing', this.statisticsMarketing);
+          this.Marketing = res.data[1];
+          this.marketingData = res.data[1].completePercentage;
+
+          (this.Marketings = [parseInt(this.marketingData)]),
+            (this.Marketing = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     getstatisticsFinanceiro() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
-
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsFinanceiro = res.data[2];
-          console.log('Financeiro', this.statisticsFinanceiro);
+          this.Financeiro = res.data[2];
+          this.financesData = res.data[2].completePercentage;
+
+          (this.Financeiros = [parseInt(this.financesData)]),
+            (this.Financeiro = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     getstatisticsRH() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
 
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsRH = res.data[3];
-          console.log('RH', this.statisticsRH);
+          this.RH = res.data[3];
+          this.rhData = res.data[3].completePercentage;
+          (this.RHS = [parseInt(this.rhData)]),
+            (this.RH = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     getstatisticsTI() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
-
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsTI = res.data[4];
-          console.log('TI', this.statisticsTI);
+          this.Ti = res.data[4];
+          this.tiData = res.data[4].completePercentage;
+
+          (this.Tis = [parseInt(this.tiData)]),
+            (this.Ti = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     logout() {
       this.$store.commit('setUser', null);
-      this.$router.push({ name: 'auth' });
+      this.$router.push({ name: 'login' });
     },
   },
   mounted() {
-    this.getstatisticsCompanyCompany();
+    this.getstatisticsCompany();
     this.getstatisticsMarketing();
     this.getstatisticsFinanceiro();
     this.getstatisticsRH();
@@ -361,167 +525,210 @@ export default {
 };
 </script>
 
-<style>
-li {
-  list-style-type: none;
-}
+<style scoped>
 #texto1 {
-  margin-left: 20px;
+  margin-left: 25px;
   margin-bottom: 20px;
 }
-
 #texto2 {
-  margin-left: 20px;
-  margin-bottom: 20px;
+  margin-left: 25px;
 }
-
-#foto {
-  width: 50px;
-  height: 50px;
+.title {
+  margin-left: 10px;
+  text-align: center;
+  color: #000;
 }
-
-#foto1 {
-  margin-left: 45px;
-  width: 200px;
-  height: 200px;
+.title1 {
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 10px;
 }
-#container {
+.container2 {
+  margin-left: 30px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
 }
-#statisticsCompany {
-  margin-top: 100px;
-  margin-left: 40px;
-  width: 400px;
-  height: 250px;
-  color: #eceff1;
+.box {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 245px;
+  height: 315px;
+  border-width: 2px;
+  border-style: solid;
+  background: #ffffff;
+  border-radius: 5px;
+  border-color: grey;
 }
-#statisticsMarketing {
+.textoMeio2 {
+  color: #ffffff;
+  margin-right: 200px;
+  margin-top: 80px;
+}
+
+#title66 {
   margin-top: 90px;
-  margin-left: 35px;
-  width: 200px;
-  height: 120px;
-  color: #0a0a0a;
+}
+
+.title6 {
+  margin-right: 50px;
+
+  color: #ffffff;
 }
 #statisticsFinanceiro {
-  margin-top: 90px;
-  margin-left: 35px;
-  width: 200px;
-  height: 120px;
-  color: #0a0a0a;
-}
-#statisticsRH {
-  margin-top: 90px;
-  margin-left: 35px;
-  width: 200px;
-  height: 120px;
-  color: #0a0a0a;
-}
-#statisticsTI {
-  margin-top: 90px;
-  margin-left: 35px;
-  width: 200px;
-  height: 120px;
-  color: #0a0a0a;
-}
-
-#column1 {
-  margin-left: 35px;
-  background-color: #263238;
-  width: 800px;
-  height: 250px;
-  display: flex;
-}
-.column2 {
-  background-color: #eceff1;
-  width: 300px;
-  height: 250px;
-  display: flex;
-}
-
-.column4 {
-  margin-top: 40px;
+  margin-top: 10px;
   margin-left: 30px;
-  margin-right: 10px;
-  color: #000;
-  margin-right: 790px;
+  width: 200px;
+  height: 120px;
+  color: #0a0a0a;
 }
-
-.column5 {
-  color: #000;
-  margin-left: 30px;
-  margin-top: 40px;
-  text-align: end;
-}
-
-#title {
-  margin-left: 20px;
-  color: #000;
-  text-align: center;
-}
-
-.title5 {
-  margin-left: 20px;
-  color: #000;
-}
-
-#title6 {
-  margin-left: 20px;
-  margin-right: 50px;
+#statisticsCompany {
   margin-top: 50px;
-  color: white;
+  margin-left: 300px;
+  width: 200px;
+  height: 120px;
+}
+#botaoDP {
+  margin-top: 60px;
+}
+#container {
+  margin-left: 38px;
 }
 
-#verDetalhes {
-  color: white;
-}
-
-.textoMeio {
-  margin-left: 20px;
-  margin-bottom: 30px;
-}
-
-.textoMeio2 {
-  color: white;
-  margin-right: 30px;
-  margin-top: 50px;
-}
-
-.title1 {
-  margin-left: 20px;
+#p1 {
   margin-top: 20px;
-  color: #000;
-  text-align: center;
-}
-
-#textoTitulo {
-  margin-top: 20px;
-  margin-left: 20px;
   margin-bottom: 20px;
 }
 
-.container1 {
-  flex-direction: row;
-}
-
-.container2 {
-  margin-left: 35px;
-  width: 100vw;
-  height: 400px;
+.column1 {
+  background-color: #263238;
+  width: 1100px;
+  height: 350px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
-.box {
-  margin-right: 10px;
-  width: 265px;
-  height: 320px;
-  border-width: 2px;
-  border-style: solid;
-  background: white;
-  border-radius: 5px;
-  border-color: grey;
+.column4 {
+  margin-top: 40px;
+  margin-left: 30px;
+  color: #000;
+  margin-right: 790px;
+}
+.column5 {
+  color: #263238;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+.column55 {
+  margin-top: 25px;
+  margin-left: 30px;
+  color: #263238;
+}
+#card {
+  width: 704px;
+  height: 330px;
+  left: 08px;
+  top: 40px;
+
+  /* H5 */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  /* or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#card01 {
+  width: 704px;
+  height: 96px;
+  left: 8px;
+  top: 6px;
+
+  /* H5 */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  /* or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+.naohatestes {
+  width: 700px;
+  height: 50px;
+  left: 12px;
+  top: 0.1px;
+
+  /* H4 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#buttons {
+  margin-top: 5px;
+}
+#irDepartamentos {
+  /* Auto layout */
+
+  padding: 1px 4px;
+  gap: 1px;
+
+  height: 56px;
+  left: 3px;
+
+  /* Blue Grey 900 */
+
+  border: 2px solid #263238;
+  border-radius: 8px;
+}
+#titulo {
+  width: 198px;
+  height: 24px;
+  margin-top: 12px;
+
+  /* H5 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
 </style>

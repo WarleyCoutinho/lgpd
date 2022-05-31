@@ -3,7 +3,7 @@
     <div id="user-dropdown" v-if="!hideUserDropdown">
       <nav class="container">
         <router-link to="/"
-          ><img id="logo" alt="TCC Logo" src="../../assets/Logotipo.svg"
+          ><img id="logo" alt="TCC Logo" src="../../assets/Logo.svg"
         /></router-link>
 
         <img
@@ -15,22 +15,20 @@
 
         <div v-on:click="closeMenu" id="menu-overlay" v-if="menuActive"></div>
         <div id="menu-items" :class="{ active: menuActive }">
-          <img id="menu-logo" alt="TCC Logo" src="../../assets/Logotipo.svg" />
+          <img id="menu-logo" alt="TCC Logo" src="../../assets/Logo.svg" />
 
           <ul id="topBar">
             <li v-on:click="closeMenu" id="Inicio">
               <router-link to="/inicio">Inicio</router-link>
             </li>
             <li v-on:click="closeMenu" id="Departamentos">
-              <router-link to="/departamentos-inicio"
-                >Departamentos</router-link
-              >
+              <router-link to="/departamentos">Departamentos</router-link>
             </li>
             <li v-on:click="closeMenu">
-              <router-link to="/lgpd">LGPD</router-link>
+              <router-link to="#">LGPD</router-link>
             </li>
             <li v-on:click="closeMenu" id="Sobre">
-              <router-link to="/sobre">Sobre</router-link>
+              <router-link to="#">Sobre</router-link>
             </li>
             <li id="userFoto">
               <UserDropdown v-if="!hideUserDropdown" />

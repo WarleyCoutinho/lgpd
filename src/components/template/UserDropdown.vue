@@ -1,20 +1,18 @@
 <template>
   <div class="user-dropdown">
     <div class="user-button">
-      <span class="d-none d-sm-block">{{ ` ${user.user.name}` }}</span>
-      <div class="nivel">
-        <p>{{ user.user.admin }}</p>
-      </div>
+      <span class="d-none d-sm-block">{{`${user.user.name}`,
+      }}</span>
       <div class="user-dropdown-img">
         <Gravatar :email="user.user.email" alt="User" />
       </div>
       <i class="fa fa-angle-down"></i>
     </div>
     <div class="user-dropdown-content">
-      <router-link to="/companyRegistration">
+      <router-link to="/companyRegistration" v-if="(user.isAdmin = true)">
         <i class="fa fa-address-card-o"></i> Administração
       </router-link>
-      <router-link to="/users">
+      <router-link to="/users" v-if="user.isAdmin">
         <i class="fa fa-plus-circle"></i> Novos Usuários
       </router-link>
       <router-link to="/personalData">
@@ -38,7 +36,7 @@ export default {
     logout() {
       localStorage.removeItem(userKey);
       this.$store.commit('setUser', null);
-      this.$router.push({ name: 'auth' });
+      this.$router.push({ name: 'login' });
     },
   },
 };

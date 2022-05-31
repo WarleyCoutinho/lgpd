@@ -5,53 +5,44 @@
       <h2>Departamentos</h2>
     </div>
     <div id="texto2">
-      <h4>Sua empresa está 0% dentro da LGPD</h4>
+      <h4>
+        Sua empresa está
+        {{ parseInt(statisticsCompany.completePercentage).toFixed(0) }} % dentro
+        da LGPD
+      </h4>
     </div>
     <div class="container2">
-      <div id="boxAdd" class="box">
+      <!-- <div id="boxAdd" class="box">
         <h2 class="textoMeio">
           <router-link to="/form-departamento">
             <i class="fa fa-plus"></i>
           </router-link>
         </h2>
-      </div>
+      </div> -->
+
       <div class="box">
         <h3 class="title1">Finanças</h3>
         <li>
-          <!-- <img id="foto1" src="../../assets/48.png" alt="48" /> -->
-          <!-- <b-row id="statisticsFinanceiro">
-              <section>
-                <h1>
-                  {{
-                    parseInt(statisticsFinanceiro.completePercentage).toFixed(0)
-                  }}
-                  %
-                </h1>
-              </section>
-            </b-row> -->
           <apexchart
             id="statisticsFinanceiro"
-            class="Financeiro"
             type="radialBar"
             height="220"
             :options="Financeiro"
             :series="Financeiros"
           />
-          <!-- para mostrar o grafico decomenta esse codigo acima -->
+
           <a href="/financas"><h4 class="title">Ver detalhes</h4></a>
         </li>
       </div>
       <div class="box">
         <h3 class="title1">T.I</h3>
         <li>
-          <!-- <img id="foto1" src="../../assets/66.png" alt="66" /> -->
           <apexchart
-            id="ti"
-            class="ti"
+            id="statisticsTI"
             type="radialBar"
             height="220"
-            :options="ti"
-            :series="tis"
+            :options="Ti"
+            :series="Tis"
           />
           <a href="/ti"><h4 class="title">Ver detalhes</h4></a>
         </li>
@@ -59,58 +50,50 @@
       <div class="box">
         <h3 class="title1">Marketing</h3>
         <li>
-          <!-- <img id="foto1" src="../../assets/72.png" alt="72" /> -->
-          <!-- <apexchart
-              id="marketing"
-              class="marketing"
-              type="radialBar"
-              height="220"
-              :options="marketing"
-              :series="marketings"
-            /> -->
-          <b-row id="statisticsMarketing">
-            <section>
-              <h1>
-                {{
-                  parseInt(statisticsMarketing.completePercentage).toFixed(0)
-                }}
-                %
-              </h1>
-            </section>
-          </b-row>
+          <apexchart
+            id="statisticsMarketing"
+            type="radialBar"
+            height="220"
+            :options="Marketing"
+            :series="Marketings"
+          />
           <a href="/marketing"><h4 class="title">Ver detalhes</h4></a>
         </li>
       </div>
-    </div>
-    <div class="container22">
       <div class="box">
         <h3 class="title1">R.H.</h3>
         <li>
-          <!-- <img id="foto1" src="../../assets/89.png" alt="89" /> -->
-          <!-- <apexchart
-              id="rh"
-              class="rh"
-              type="radialBar"
-              height="220"
-              :options="rhs"
-              :series="rh"
-            /> -->
-          <b-row id="statisticsRH">
-            <section>
-              <h1>
-                {{ parseInt(statisticsRH.completePercentage).toFixed(0) }} %
-              </h1>
-            </section>
-          </b-row>
+          <apexchart
+            id="statisticsRH"
+            type="radialBar"
+            height="220"
+            :options="RH"
+            :series="RHS"
+          />
           <a href="/rh"><h4 class="title">Ver detalhes</h4></a>
         </li>
       </div>
     </div>
+    <!-- <div class="container22">
+      <div class="box">
+        <h3 class="title1">R.H.</h3>
+        <li>
+          <apexchart
+            id="statisticsRH"
+            type="radialBar"
+            height="220"
+            :options="RH"
+            :series="RHS"
+          />
+          <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
+        </li>
+      </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { userKey } from '@/global';
+import { baseApiUrl, userKey } from '@/global';
 import { request } from '@/config/services/request';
 
 import { mapState } from 'vuex';
@@ -121,119 +104,331 @@ export default {
   computed: mapState(['user']),
   data() {
     return {
-      statisticsMarketing: {},
-      statisticsFinanceiros: [],
-      statisticsFinanceiro: {},
-      statisticsRH: {},
-      statisticsTI: {},
+      statisticsCompany: {},
+      Marketing: {},
+      Marketings: [],
+      marketingData: 0,
+      Financeiro: {},
+      Financeiros: [],
       financesData: 0,
-
-      // TI
-      tis: [66],
-      ti: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          color: '#52B12C',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            },
-          },
-        },
-        colors: ['#000000'],
-        labels: ['TI'],
-      },
-      //  TI
+      RH: {},
+      RHS: [],
+      rhData: 0,
+      Ti: {},
+      Tis: [],
+      tiData: 0,
     };
   },
   methods: {
+    getstatisticsCompany() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
+        .then((res) => {
+          this.statisticsCompany = res.data[0];
+        });
+    },
     getstatisticsMarketing() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
 
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsMarketing = res.data[1];
-          // console.log('Marketing', this.statisticsMarketing);
+          this.Marketing = res.data[1];
+          this.marketingData = res.data[1].completePercentage;
+
+          (this.Marketings = [parseInt(this.marketingData)]),
+            (this.Marketing = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     getstatisticsFinanceiro() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsFinanceiro = res.data[2];
+          this.Financeiro = res.data[2];
           this.financesData = res.data[2].completePercentage;
 
-          (this.Financeiros = [Number(this.financesData)]),
+          (this.Financeiros = [parseInt(this.financesData)]),
             (this.Financeiro = {
               chart: {
-                height: 220,
+                height: 250,
                 type: 'radialBar',
-                color: '#52B12C',
               },
               plotOptions: {
                 radialBar: {
                   hollow: {
-                    size: '70%',
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
                   },
                 },
               },
-              colors: ['#000000'],
-              labels: ['f'],
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
             });
         });
-
-      console.log(
-        'Grafico Financia',
-        this.statisticsFinanceiro.completePercentage
-      );
     },
     getstatisticsRH() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
 
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsRH = res.data[3];
-          // console.log('RH', this.statisticsRH);
+          this.RH = res.data[3];
+          this.rhData = res.data[3].completePercentage;
+          (this.RHS = [parseInt(this.rhData)]),
+            (this.RH = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     getstatisticsTI() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
-
       request()
-        .get(
-          `http://localhost:3000/answer/${companyId}/statistics`,
-          this.answer
-        )
+        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
         .then((res) => {
-          this.statisticsTI = res.data[4];
-          // console.log('TI', this.statisticsTI);
+          this.Ti = res.data[4];
+          this.tiData = res.data[4].completePercentage;
+
+          (this.Tis = [parseInt(this.tiData)]),
+            (this.Ti = {
+              chart: {
+                height: 250,
+                type: 'radialBar',
+              },
+              plotOptions: {
+                radialBar: {
+                  hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: '#FFFFFF',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                      enabled: false,
+                      top: 3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.24,
+                    },
+                  },
+                  track: {
+                    background: '#FFFFFF',
+                    strokeWidth: '67%',
+                    margin: 0, // margin is in pixels
+                    dropShadow: {
+                      enabled: false,
+                      top: -3,
+                      left: 0,
+                      blur: 4,
+                      opacity: 0.35,
+                    },
+                  },
+                  dataLabels: {
+                    show: true,
+                    name: {
+                      offsetY: -10,
+                      show: false,
+                      color: '#FFFFFF',
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                    value: {
+                      formatter: function (val) {
+                        return parseInt(val);
+                      },
+                      color: '#263238',
+                      fontSize: '36px',
+                      show: true,
+                    },
+                  },
+                },
+              },
+              stroke: {
+                lineCap: '',
+              },
+              colors: ['#263238'],
+              labels: [''],
+            });
         });
     },
     logout() {
       this.$store.commit('setUser', null);
-      this.$router.push({ name: 'auth' });
+      this.$router.push({ name: 'login' });
     },
   },
   mounted() {
+    this.getstatisticsCompany();
     this.getstatisticsMarketing();
     this.getstatisticsFinanceiro();
     this.getstatisticsRH();
@@ -253,10 +448,11 @@ i {
 
 #texto2 {
   margin-left: 25px;
+  margin-bottom: 20px;
 }
 
 #divNome {
-  background-color: white;
+  background-color: #ffffff;
 }
 
 li {
@@ -264,65 +460,39 @@ li {
 }
 
 #statisticsMarketing {
-  margin-top: 90px;
-  margin-left: 35px;
+  margin-top: 10px;
+  margin-left: 20px;
   width: 200px;
-  height: 120px;
-  color: #0a0a0a;
 }
 #statisticsFinanceiro {
   margin-top: 10px;
-  margin-left: 30px;
+  margin-left: 20px;
   width: 200px;
-  height: 120px;
-  color: #0a0a0a;
 }
 #statisticsRH {
-  margin-top: 90px;
-  margin-left: 35px;
+  margin-top: 10px;
+  margin-left: 20px;
   width: 200px;
-  height: 120px;
-  color: #0a0a0a;
 }
 #statisticsTI {
-  margin-top: 90px;
-  margin-left: 35px;
+  margin-top: 10px;
+  margin-left: 20px;
   width: 200px;
-  height: 120px;
-  color: #0a0a0a;
-}
-#foto {
-  width: 50px;
-  height: 50px;
-  border-radius: 20px;
-}
-
-#foto1 {
-  margin-left: 10px;
-  width: 250px;
-  height: 250px;
 }
 
 .title {
-  margin-left: 20px;
+  margin-left: 10px;
+  text-align: center;
   color: #000;
-  text-align: center;
 }
-.textoMeio {
-  margin-bottom: 100px;
-  margin-top: 150px;
-  text-align: center;
-}
-
 .title1 {
-  margin-left: 20px;
-  color: #000;
   text-align: center;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .container2 {
-  margin-left: -90px;
-
+  margin-left: 8px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -334,17 +504,17 @@ li {
   align-items: center;
 }
 #boxAdd {
-  background-color: gainsboro;
+  background-color: #ffffff;
 }
 .box {
   margin-bottom: 20px;
   margin-right: 20px;
   margin-left: 20px;
-  width: 250px;
-  height: 350px;
+  width: 245px;
+  height: 315px;
   border-width: 2px;
   border-style: solid;
-  background: white;
+  background: #ffffff;
   border-radius: 5px;
   border-color: grey;
 }

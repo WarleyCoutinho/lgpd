@@ -11,9 +11,9 @@ import Financas from '/src/view/financas/Financas';
 import Marketing from '/src/view/marketing/Marketing';
 import TI from '/src/view/ti/TI';
 import RH from '/src/view/rh/RH';
-import FormDepartamento from '/src/layout/departamentos/FormDepartamento';
 import Departamentos from '/src/layout/departamentos/Departamentos';
-import DepartamentoInicio from '/src/layout/departamentos/DepartamentoInicio';
+// import FormDepartamento from '/src/layout/departamentos/FormDepartamento';
+// import DepartamentoInicio from '/src/layout/departamentos/DepartamentoInicio';
 
 Vue.use(VueRouter);
 
@@ -34,7 +34,6 @@ const routes = [
     name: 'personalData',
     path: '/personalData',
     component: PersonalData,
-    // meta: { requiresAdmin: true },
   },
   {
     name: 'companyRegistration',
@@ -48,20 +47,20 @@ const routes = [
     component: PrimeiraPagina,
   },
   {
-    name: 'form-departamento',
-    path: '/form-departamento',
-    component: FormDepartamento,
-  },
-  {
-    name: 'departamentos-inicio',
-    path: '/departamentos-inicio',
-    component: DepartamentoInicio,
-  },
-  {
     name: 'departamentos',
     path: '/departamentos',
     component: Departamentos,
   },
+  // {
+  //   name: 'form-departamento',
+  //   path: '/form-departamento',
+  //   component: FormDepartamento,
+  // },
+  // {
+  //   name: 'departamentos-inicio',
+  //   path: '/departamentos-inicio',
+  //   component: DepartamentoInicio,
+  // },
 
   {
     name: 'inicio',

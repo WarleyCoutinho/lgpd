@@ -1,7 +1,7 @@
 <template>
   <div class="auth-content">
     <div class="auth-modal">
-      <img src="../../assets/Logotipo.svg" width="200" alt="Logo TCC" />
+      <img src="../../assets/Logo.svg" width="200" alt="Logo TCC" />
       <hr />
       <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
 
@@ -43,7 +43,6 @@
 
 <script>
 import { baseApiUrl, showError, userKey } from '@/global';
-// import axios from 'axios';
 import { request } from '@/config/services/request';
 
 export default {
@@ -56,8 +55,6 @@ export default {
   },
   methods: {
     signin() {
-      // axios
-      // .post(`http://localhost:3000/login`, this.user)
       request()
         .post(`${baseApiUrl}/login`, this.user)
         .then((res) => {
@@ -68,9 +65,8 @@ export default {
         .catch(showError);
     },
     signup() {
-      // axios
       request()
-        .post(`${baseApiUrl}/login`, this.user)
+        .put(`${baseApiUrl}/user`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.user = {};

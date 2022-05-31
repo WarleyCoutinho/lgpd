@@ -3,8 +3,8 @@
     <hr class="hr" />
     <b-row>
       <b-col md="6" sm="12" class="seccão01">
-        <div id="secao">Financeiro => {{ department }}</div>
-        <b-row>
+        <div id="secao">{{ financesDepartment }}</div>
+        <!-- <b-row>
           <div id="Ellipse7">
             <b-dd-header></b-dd-header>
           </div>
@@ -13,15 +13,19 @@
           <div id="Ellipse6">
             <b-dd-header></b-dd-header>
           </div>
-        </b-row>
+        </b-row> -->
         <ul>
-          <li v-for="(question, index) in answers.questions" :key="index">
-            {{ question.id }}-{{ question.question }}
+          <li
+            class="perguntas"
+            v-for="(question, index) in answers.questions"
+            :key="index"
+          >
+            {{ question.id }}.{{ ' ' + question.question }}
             <b-form-radio-group
               v-model="question.answer"
               :options="question.options"
               stacked
-              class="mb-3"
+              class="respostas"
             />
           </li>
         </ul>
@@ -46,29 +50,11 @@ export default {
   data: function () {
     return {
       mode: 'save',
-      department: {},
       answer: {},
       answers: [],
     };
   },
   methods: {
-    getDepartmentFinanceiro() {
-      const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const companyId = localStorageData.user.companyId;
-      // console.log(companyId);
-
-      request()
-        .get(`${baseApiUrl}/answer/${companyId}/statistics`, this.answer)
-        .then((res) => {
-          // this.department = res.data[1];
-          res.data.map((data) => {
-            res.data = data.department;
-            return data;
-          });
-          this.department = res.data;
-          console.log('Departamento', this.department);
-        });
-    },
     loadanswers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const companyId = localStorageData.user.companyId;
@@ -76,7 +62,8 @@ export default {
         .get(`${baseApiUrl}/answer/${companyId}`)
         .then((res) => {
           const financesQuestions = res.data.find(
-            (item) => item.department == 'Financeiro'
+            (item) => item.department == 'Financeiro',
+            (this.financesDepartment = res.data[1].department)
           );
           // console.log('Trazendo dados', res, financesQuestions);
           financesQuestions.questions = financesQuestions.questions.sort(
@@ -133,12 +120,23 @@ export default {
   },
   mounted() {
     this.loadanswers();
-    this.getDepartmentFinanceiro();
   },
 };
 </script>
 
 <style scoped>
+.perguntas {
+  text-align: justify;
+  font-size: 16px;
+}
+.respostas {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+li {
+  list-style-type: none;
+}
 .buttons {
   /* Buttons */
 
@@ -210,6 +208,7 @@ export default {
   height: 64px;
   left: 680px;
   top: 188px;
+  margin-bottom: 50px;
 
   font-family: 'Inter';
   font-style: normal;

@@ -1,113 +1,213 @@
 <template>
   <div class="container">
     <hr />
-    <b-form>
+    <div v-show="displayForm">
+      <b-form>
+        <input type="hidden" v-model="user.userId" />
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-form-group label="Nome:" label-for="user-name">
+              <b-form-input
+                id="user-name"
+                type="text"
+                v-model="user.name"
+                placeholder="Informe o Nome do Usuário"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="E-mail:" label-for="user-email">
+              <b-form-input
+                id="user-email"
+                type="text"
+                v-model="user.email"
+                placeholder="Informe o E-mail do Usuário"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-form-group label="Senha:" label-for="user-password">
+              <b-form-input
+                id="user-password"
+                type="password"
+                v-model="user.password"
+                placeholder="Informe a Senha do Usuário"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="CPF:" label-for="user-confirm-password">
+              <b-form-input
+                id="user-cpf"
+                type="cpf"
+                v-model="user.cpf"
+                placeholder="Informe seu cpf"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <hr />
+        <b-row>
+          <b-col xs="12">
+            <b-button variant="primary" v-if="mode === 'save'" @click="save">
+              Salvar
+            </b-button>
+            <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
+              Excluir
+            </b-button>
+            <b-button class="ml-2" @click="reset"> Cancelar </b-button>
+            <b-button
+              variant="warning"
+              class="ml-2"
+              @click="displayForm = false"
+            >
+              Listar
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-form>
+      <hr />
+    </div>
+    <div class="overflow" v-show="!displayForm">
       <b-row>
-        <b-col md="6" sm="12">
-          <b-form-group label="Nome:" label-for="user-name">
-            <b-form-input
-              id="user-name"
-              type="text"
-              v-model="user.name"
-              placeholder="Informe o Nome do Usuário"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="6" sm="12">
-          <b-form-group label="E-mail:" label-for="user-email">
-            <b-form-input
-              id="user-email"
-              type="text"
-              v-model="user.email"
-              placeholder="Informe o E-mail do Usuário"
-            />
+        <b-col md="12" lg="12" class="my-1">
+          <b-form-group label-for="filterInput" class="mb-0">
+            <b-input-group size="md">
+              <b-form-input
+                v-model="filter"
+                type="search"
+                id="filterInput"
+                placeholder="Digite para pesquisar"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''"
+                  >Limpar</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
           </b-form-group>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col md="6" sm="12">
-          <b-form-group label="Senha:" label-for="user-password">
-            <b-form-input
-              id="user-password"
-              type="password"
-              v-model="user.password"
-              placeholder="Informe a Senha do Usuário"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="6" sm="12">
-          <b-form-group label="CPF:" label-for="user-confirm-password">
-            <b-form-input
-              id="user-cpf"
-              type="cpf"
-              v-model="user.cpf"
-              placeholder="Informe seu cpf"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
+      <b-table
+        hover
+        striped
+        small
+        sort-icon-left
+        head-variant="dark"
+        :items="users"
+        :fields="fields"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :filter="filter"
+        :filterIncludedFields="filterOn"
+        @filtered="onFiltered"
+      >
+        <template v-slot:cell(actions)="data">
+          <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
+            <i class="fa fa-pencil"></i>
+          </b-button>
+          <b-button variant="danger" @click="loadUser(data.item, 'remove')">
+            <i class="fa fa-trash"></i>
+          </b-button>
+        </template>
+      </b-table>
       <hr />
       <b-row>
-        <b-col xs="12">
-          <b-button variant="primary" v-if="mode === 'save'" @click="save">
-            Salvar
+        <b-col md="5" sm="12">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            first-text="Primeiro"
+            prev-text="Anterior"
+            next-text="Próximo"
+            last-text="Último"
+            size="md"
+          ></b-pagination>
+        </b-col>
+        <b-col md="5" sm="12">
+          <b-form-group
+            label="Qtd Linhas"
+            label-cols-sm="6"
+            label-cols-md="4"
+            label-cols-lg="3"
+            label-align-sm="right"
+            label-size="md"
+            label-for="perPageSelect"
+            class="mb-0"
+          >
+            <b-form-select
+              v-model="perPage"
+              id="perPageSelect"
+              :options="pageOptions"
+              size="md"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col md="2" sm="12" class="text-right">
+          <b-button variant="primary" class="ml-2" @click="displayForm = true">
+            Novo Usuário
           </b-button>
-          <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
-            Excluir
-          </b-button>
-          <b-button class="ml-2" @click="reset"> Cancelar </b-button>
         </b-col>
       </b-row>
-    </b-form>
+    </div>
   </div>
 </template>
 
 <script>
-// import { baseApiUrl, showError, userKey } from '@/global';
-import { baseApiUrl, showError } from '@/global';
+import { baseApiUrl, showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
+import axios from 'axios';
 
 export default {
   name: 'Users',
   data: function () {
     return {
+      perPage: 5,
+      currentPage: 1,
+      pageOptions: [5, 10, 15],
+      filter: null,
+      filterOn: [],
       mode: 'save',
+      displayForm: true,
       user: {},
-      // users: [],
+      users: [],
+      fields: [
+        { key: 'name', label: 'Nome' },
+        { key: 'email', label: 'Email' },
+        { key: 'cpf', label: 'CPF' },
+        { key: 'isAdmin', label: 'Admin' },
+        { key: 'actions', label: 'Ações' },
+      ],
     };
   },
   methods: {
-    // loadUsers() {
-    //   const localStorageData = JSON.parse(localStorage.getItem(userKey));
-    //   const id = localStorageData.user.id;
-    //   request()
-    //     .get(`${baseApiUrl}/user/${id}`)
-    //     .then((res) => {
-    //       this.user = res.data;
-    //       console.log('Usuarios', this.users);
-    //     });
-    // },
+    loadUsers() {
+      const localStorageData = JSON.parse(localStorage.getItem(userKey));
+      const companyId = localStorageData.user.companyId;
+      request()
+        .get(`${baseApiUrl}/user/${companyId}`)
+        .then((res) => {
+          this.users = res.data;
+          console.log('Get Users', this.users);
+        });
+    },
     reset() {
       this.mode = 'save';
       this.user = {};
-      // this.loadUsers();
+      this.loadUsers();
     },
     save() {
-      // const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      // const id = localStorageData.user.id;
-      // console.log(dataToSendUsers);
-      // console.log(id);
-
       const dataToSendUsers = {
         name: this.user.name,
         email: this.user.email,
         password: this.user.password,
         cpf: this.user.cpf,
       };
-
       request()
         .put(`${baseApiUrl}/user/create-other`, dataToSendUsers)
-        // .put(`http://localhost:3000/user/create-other`, dataToSendUsers)
         .then((res) => {
           this.$toasted.global.defaultSuccess();
           this.reset();
@@ -115,13 +215,34 @@ export default {
         })
         .catch(showError);
     },
+    remove() {
+      const id = this.user.userId;
+      axios
+        .delete(`${baseApiUrl}/user/${id}`)
+        .then(() => {
+          this.$toasted.global.defaultSuccess();
+          this.reset();
+        })
+        .catch(showError);
+    },
     loadUser(user, mode = 'save') {
       this.mode = mode;
+      this.displayForm = true;
       this.user = { ...user };
+    },
+
+    onFiltered(filteredItems) {
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
   },
   mounted() {
-    // this.loadUsers();
+    this.loadUsers();
+  },
+  computed: {
+    rows() {
+      return this.users.length;
+    },
   },
 };
 </script>
