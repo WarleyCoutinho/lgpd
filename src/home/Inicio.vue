@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <hr class="hr" />
+    <Loading v-if="showLoading" />
     <div id="texto1">
       <h2>Olá, {{ ` ${user.user.name}` }}</h2>
     </div>
@@ -52,9 +53,53 @@
         </ul>
       </div>
     </b-row>
-
+    <b-card
+      id="card"
+      v-if="parseInt(statisticsCompany.completePercentage) == 0"
+    >
+      <div>
+        <b-row>
+          <div>
+            <b-col md="12" sm="12" class="naohatestes">
+              <div><h1>Não há testes recentes.</h1></div>
+            </b-col>
+          </div>
+        </b-row>
+      </div>
+      <b-row id="card01">
+        <div>
+          <b-col md="12" sm="12" class="">
+            <div id="divparagrafos">
+              <p id="p1">
+                Para iniciar o teste, primeiro adicione um departamento.
+              </p>
+              <p id="p2">
+                Quando adicionar um departamento, poderá escolher iniciar o
+                teste ou gerenciar outros departamentos.
+              </p>
+            </div>
+          </b-col>
+        </div>
+      </b-row>
+      <b-row>
+        <div id="botaoDP">
+          <b-col md="12" sm="12" class="">
+            <div id="irDepartamentos">
+              <router-link to="/departamentos">
+                <b-button id="buttons" variant="Light" @click="save">
+                  Ir para Departamentos
+                </b-button>
+              </router-link>
+            </div>
+          </b-col>
+        </div>
+      </b-row>
+    </b-card>
     <b-row>
-      <div class="container2">
+      <div
+        class="container2"
+        v-if="parseInt(statisticsCompany.completePercentage) !== 0"
+      >
         <b-row>
           <div class="box">
             <h3 class="title1">Finanças</h3>
@@ -70,7 +115,7 @@
             <a href="/financas"><h4 class="title">Ver detalhes</h4></a>
           </div>
           <div class="box">
-            <h3 class="title1">T.I</h3>
+            <h3 class="title1">TI</h3>
 
             <apexchart
               id="statisticsTI"
@@ -95,7 +140,7 @@
             <a href="/marketing"><h4 class="title">Ver detalhes</h4></a>
           </div>
           <div class="box">
-            <h3 class="title1">R.H.</h3>
+            <h3 class="title1">RH</h3>
 
             <apexchart
               id="statisticsRH"
@@ -115,15 +160,16 @@
 <script>
 import { baseApiUrl, userKey } from '@/global';
 import { request } from '@/config/services/request';
-
+import Loading from '../components/template/Loading';
 import { mapState } from 'vuex';
 import ApexCharts from 'vue-apexcharts';
 export default {
   name: 'Inicio',
-  components: { apexchart: ApexCharts },
+  components: { apexchart: ApexCharts, Loading },
   computed: mapState(['user']),
   data() {
     return {
+      showLoading: false,
       statisticsCompany: {},
       Company: {},
       Companys: [],
@@ -153,7 +199,7 @@ export default {
           this.Company = res.data[0];
           this.companyData = res.data[0].completePercentage;
 
-          (this.Companys = [`${parseInt(this.companyData.toFixed(0))} `]),
+          (this.Companys = [`${parseInt(this.companyData.toFixed(0))}`]),
             (this.Company = {
               chart: {
                 height: 250,
@@ -515,6 +561,10 @@ export default {
       this.$router.push({ name: 'login' });
     },
   },
+  async loadReport() {
+    this.showLoading = true;
+    this.showLoading = false;
+  },
   mounted() {
     this.getstatisticsCompany();
     this.getstatisticsMarketing();
@@ -526,6 +576,46 @@ export default {
 </script>
 
 <style scoped>
+#botaoDP {
+  margin-top: 60px;
+}
+.naohatestes {
+  width: 700px;
+  height: 50px;
+  left: 12px;
+  top: 0.1px;
+
+  /* H4 (Bold) */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+
+  text-align: center;
+
+  /* Blue Grey 900 */
+
+  color: #263238;
+}
+#buttons {
+  margin-top: 5px;
+}
+#irDepartamentos {
+  /* Auto layout */
+
+  padding: 1px 4px;
+  gap: 1px;
+
+  height: 56px;
+  left: 3px;
+
+  /* Blue Grey 900 */
+
+  border: 2px solid #263238;
+  border-radius: 8px;
+}
 #texto1 {
   margin-left: 25px;
   margin-bottom: 20px;
@@ -544,6 +634,8 @@ export default {
   margin-left: 10px;
 }
 .container2 {
+  margin-top: 100px;
+  margin-bottom: 20px;
   margin-left: 30px;
   display: inline-flex;
   flex-direction: row;

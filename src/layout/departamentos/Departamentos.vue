@@ -12,14 +12,6 @@
       </h4>
     </div>
     <div class="container2">
-      <!-- <div id="boxAdd" class="box">
-        <h2 class="textoMeio">
-          <router-link to="/form-departamento">
-            <i class="fa fa-plus"></i>
-          </router-link>
-        </h2>
-      </div> -->
-
       <div class="box">
         <h3 class="title1">Finanças</h3>
         <li>
@@ -35,7 +27,7 @@
         </li>
       </div>
       <div class="box">
-        <h3 class="title1">T.I</h3>
+        <h3 class="title1">TI</h3>
         <li>
           <apexchart
             id="statisticsTI"
@@ -61,7 +53,7 @@
         </li>
       </div>
       <div class="box">
-        <h3 class="title1">R.H.</h3>
+        <h3 class="title1">RH</h3>
         <li>
           <apexchart
             id="statisticsRH"
@@ -74,21 +66,6 @@
         </li>
       </div>
     </div>
-    <!-- <div class="container22">
-      <div class="box">
-        <h3 class="title1">R.H.</h3>
-        <li>
-          <apexchart
-            id="statisticsRH"
-            type="radialBar"
-            height="220"
-            :options="RH"
-            :series="RHS"
-          />
-          <a href="/rh"><h4 id="title">Ver detalhes</h4></a>
-        </li>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -492,6 +469,8 @@ li {
 }
 
 .container2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
   margin-left: 8px;
   display: inline-flex;
   flex-direction: row;

@@ -2,8 +2,7 @@
   <div class="container">
     <hr />
     <div v-show="displayForm">
-      <b-form>
-        <input type="hidden" v-model="user.userId" />
+      <b-form @submit.stop.prevent="onSubmit">
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome:" label-for="user-name">
@@ -43,6 +42,7 @@
                 id="user-cpf"
                 type="cpf"
                 v-model="user.cpf"
+                v-mask="'###.###.###-##'"
                 placeholder="Informe seu cpf"
               />
             </b-form-group>
@@ -51,21 +51,31 @@
         <hr />
         <b-row>
           <b-col xs="12">
-            <b-button variant="primary" v-if="mode === 'save'" @click="save">
+            <b-button
+              type="submit"
+              variant="primary"
+              v-if="mode === 'save'"
+              @click="save"
+            >
               Salvar
             </b-button>
             <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
               Excluir
             </b-button>
             <b-button class="ml-2" @click="reset"> Cancelar </b-button>
-            <b-button
+            <!-- <b-button
               variant="warning"
               class="ml-2"
               @click="displayForm = false"
             >
               Listar
-            </b-button>
+            </b-button> -->
           </b-col>
+          <!-- <b-col md="2" sm="12" class="text-right">
+            <b-button variant="info" class="ml-2" @click="resetForm()"
+              >Limpar</b-button
+            >
+          </b-col> -->
         </b-row>
       </b-form>
       <hr />
@@ -157,9 +167,8 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global';
+import { baseApiUrl, showError } from '@/global';
 import { request } from '@/config/services/request';
-import axios from 'axios';
 
 export default {
   name: 'Users',
@@ -184,20 +193,39 @@ export default {
     };
   },
   methods: {
-    loadUsers() {
-      const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const companyId = localStorageData.user.companyId;
-      request()
-        .get(`${baseApiUrl}/user/${companyId}`)
-        .then((res) => {
-          this.users = res.data;
-          console.log('Get Users', this.users);
-        });
+    validateState(ref) {
+      if (
+        this.veeFields[ref] &&
+        (this.veeFields[ref].dirty || this.veeFields[ref].validated)
+      ) {
+        return !this.veeErrors.has(ref);
+      }
+      return null;
+    },
+    resetForm() {
+      this.Users = {
+        name: null,
+        email: null,
+        cpf: null,
+        password: null,
+      };
+
+      this.$nextTick(() => {
+        this.$validator.reset();
+      });
+    },
+    onSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (!result) {
+          return;
+        }
+
+        // alert('Formulário enviado!');
+      });
     },
     reset() {
       this.mode = 'save';
       this.user = {};
-      this.loadUsers();
     },
     save() {
       const dataToSendUsers = {
@@ -207,7 +235,7 @@ export default {
         cpf: this.user.cpf,
       };
       request()
-        .put(`${baseApiUrl}/user/create-other`, dataToSendUsers)
+        .post(`${baseApiUrl}/user/create-other`, dataToSendUsers)
         .then((res) => {
           this.$toasted.global.defaultSuccess();
           this.reset();
@@ -215,16 +243,16 @@ export default {
         })
         .catch(showError);
     },
-    remove() {
-      const id = this.user.userId;
-      axios
-        .delete(`${baseApiUrl}/user/${id}`)
-        .then(() => {
-          this.$toasted.global.defaultSuccess();
-          this.reset();
-        })
-        .catch(showError);
-    },
+    // remove() {
+    //   const id = this.user.userId;
+    //   request()
+    //     .delete(`${baseApiUrl}/user/${id}`)
+    //     .then(() => {
+    //       this.$toasted.global.defaultSuccess();
+    //       this.reset();
+    //     })
+    //     .catch(showError);
+    // },
     loadUser(user, mode = 'save') {
       this.mode = mode;
       this.displayForm = true;

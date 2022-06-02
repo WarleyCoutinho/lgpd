@@ -2,7 +2,7 @@
   <header class="container">
     <div id="user-dropdown" v-if="!hideUserDropdown">
       <nav class="container">
-        <router-link to="/"
+        <router-link to="/inicio"
           ><img id="logo" alt="TCC Logo" src="../../assets/Logo.svg"
         /></router-link>
 

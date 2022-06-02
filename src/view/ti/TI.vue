@@ -133,13 +133,10 @@ li {
 }
 .buttons {
   /* Buttons */
-
-  position: absolute;
   width: 550px;
   height: 40px;
-  left: 10px;
-  top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
+  margin-top: 30px;
   color: black;
   background-color: #e5e5e5;
 

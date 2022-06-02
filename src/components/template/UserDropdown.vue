@@ -1,19 +1,21 @@
 <template>
   <div class="user-dropdown">
     <div class="user-button">
-      <span class="d-none d-sm-block">{{`${user.user.name}`,
-      }}</span>
+      <span class="d-none d-sm-block">
+        {{`${user.user.name}`,
+        }}</span
+      >
       <div class="user-dropdown-img">
         <Gravatar :email="user.user.email" alt="User" />
       </div>
       <i class="fa fa-angle-down"></i>
     </div>
     <div class="user-dropdown-content">
-      <router-link to="/companyRegistration" v-if="(user.isAdmin = true)">
-        <i class="fa fa-address-card-o"></i> Administração
+      <router-link to="/users" v-if="user.user.isAdmin">
+        <i class="fa fa-plus-circle"></i> Novo Usuário
       </router-link>
-      <router-link to="/users" v-if="user.isAdmin">
-        <i class="fa fa-plus-circle"></i> Novos Usuários
+      <router-link to="/update">
+        <i class="fa fa-pencil"></i> Alterar Dados
       </router-link>
       <router-link to="/personalData">
         <i class="fa fa-address-book"></i> Meus Dados
@@ -74,8 +76,8 @@ export default {
   position: absolute;
   right: 0px;
   background-color: var(--color-background);
-  border-radius: 32px;
-  min-width: 170px;
+  border-radius: 15px;
+  min-width: 180px;
   box-shadow: 0px 8px 16px 0px rgba(170, 166, 166, 0.034);
   padding: 10px;
   z-index: 1;

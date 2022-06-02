@@ -3,26 +3,15 @@
     <hr />
     <div v-show="displayForm">
       <b-form>
-        <!-- <input type="hidden" v-model="user.userId" /> -->
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome:" label-for="user-name">
-              <b-form-input
-                id="user-name"
-                type="text"
-                v-model="user.name"
-                placeholder="Informe o Nome do Usuário"
-              />
+              <b-form-input id="user-name" type="text" v-model="user.name" />
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
             <b-form-group label="E-mail:" label-for="user-email">
-              <b-form-input
-                id="user-email"
-                type="text"
-                v-model="user.email"
-                placeholder="Informe o E-mail do Usuário"
-              />
+              <b-form-input id="user-email" type="text" v-model="user.email" />
             </b-form-group>
           </b-col>
         </b-row>
@@ -33,29 +22,22 @@
                 id="user-password"
                 type="password"
                 v-model="user.password"
-                placeholder="Informe a Senha do Usuário"
               />
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
             <b-form-group label="CPF:" label-for="user-confirm-password">
-              <b-form-input
-                id="user-cpf"
-                type="cpf"
-                v-model="user.cpf"
-                placeholder="Informe seu cpf"
-              />
+              <b-form-input id="user-cpf" type="cpf" v-model="user.cpf" />
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
+        <!-- <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Empresa:" label-for="company-name">
               <b-form-input
                 id="company-name"
                 type="text"
                 v-model="company.name"
-                placeholder="Informe o nome da empresa"
               />
             </b-form-group>
           </b-col>
@@ -65,19 +47,17 @@
                 id="company-cnpj"
                 type="text"
                 v-model="company.cnpj"
-                placeholder="Informe o cnpj da empresa"
               />
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
+        </b-row> -->
+        <!-- <b-row>
           <b-col md="3" sm="12">
             <b-form-group label="RUA:" label-for="company-address-street">
               <b-form-input
                 id="company-street"
                 type="text"
                 v-model="address.street"
-                placeholder="Informe o nome da rua"
               />
             </b-form-group>
           </b-col>
@@ -87,7 +67,6 @@
                 id="company-zipCode"
                 type="text"
                 v-model="address.zipCode"
-                placeholder="Informe o cep"
               />
             </b-form-group>
           </b-col>
@@ -100,7 +79,6 @@
                 id="company-neighborhood"
                 type="text"
                 v-model="address.neighborhood"
-                placeholder="Informe seu bairro"
               />
             </b-form-group>
           </b-col>
@@ -113,12 +91,11 @@
                 id="company-numberHouse"
                 type="text"
                 v-model="address.numberHouse"
-                placeholder="Informe o numero da casa"
               />
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
+        </b-row> -->
+        <!-- <b-row>
           <b-col md="3" sm="12">
             <b-form-group
               label="Complemento:"
@@ -128,7 +105,6 @@
                 id="company-complemento"
                 type="text"
                 v-model="address.complement"
-                placeholder="Complemento"
               />
             </b-form-group>
           </b-col>
@@ -141,7 +117,6 @@
                 id="company-referencePoint"
                 type="text"
                 v-model="address.referencePoint"
-                placeholder="informe um ponto de referência"
               />
             </b-form-group>
           </b-col>
@@ -177,7 +152,7 @@
             </b-dropdown>
           </b-col>
         </b-row>
-        <hr />
+        <hr /> -->
         <!-- <b-row>
           <b-col xs="12">
             <b-button variant="primary" v-if="mode === 'save'" @click="save">
@@ -288,10 +263,19 @@
 <script>
 import { baseApiUrl, showError, userKey } from '@/global';
 import { request } from '@/config/services/request';
-import axios from 'axios';
 
 export default {
   name: 'CompanyRegistration',
+  props: {
+    stateId: {
+      type: Number,
+      default: 0,
+    },
+    cityId: {
+      type: Number,
+      default: 0,
+    },
+  },
   data: function () {
     return {
       perPage: 5,
@@ -309,16 +293,6 @@ export default {
       cities: [],
       company: {},
       address: [],
-      props: {
-        stateId: {
-          type: Number,
-          default: 0,
-        },
-        cityId: {
-          type: Number,
-          default: 0,
-        },
-      },
       fields: [
         { key: 'companyId', label: 'Empresa' },
         { key: 'name', label: 'Nome' },
@@ -331,13 +305,12 @@ export default {
   methods: {
     loadUsers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
-      const companyId = localStorageData.user.companyId;
+      const id = localStorageData.user.id;
       request()
-        .get(`${baseApiUrl}/user/${companyId}`)
+        .get(`${baseApiUrl}/user/${id}`)
         .then((res) => {
-          // this.users = res.data;
           this.user = res.data;
-          // console.log('Get Users', this.users);
+          // console.log('User', this.user);
         });
     },
     getStates() {
@@ -408,8 +381,8 @@ export default {
         .catch(showError);
     },
     remove() {
-      const id = this.user.userId;
-      axios
+      const id = this.user.id;
+      request()
         .delete(`${baseApiUrl}/user/${id}`)
         .then(() => {
           this.$toasted.global.defaultSuccess();
