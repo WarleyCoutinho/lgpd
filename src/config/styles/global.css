@@ -5,7 +5,10 @@
   --color-background-content: #ffffff;
   --color-text-light: #ededed;
   --color-text-title: #ff5555;
-  --color-text-title-login: #0427eb;
+  --color-text-title-login: #263238;
+  --color-text-title-loginHover: #0427eb;
+  --color-text-title-cadastro: #263238;
+  --color-text-title-cadastroHover: #0427eb;
   --color-text-header: #263238;
   --color-text-dark: #3d3d3d;
 }

@@ -2,33 +2,79 @@
   <div class="container">
     <hr />
     <div v-show="displayForm">
-      <b-form>
+      <b-form @submit.stop.prevent="onSubmit">
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome:" label-for="user-name">
-              <b-form-input id="user-name" type="text" v-model="user.name" />
+            <b-form-group>
+              <label for=">Nome">Nome</label>
+              <span style="color: red"> *</span>
+              <b-form-input
+                id="name"
+                name="name"
+                type="name"
+                v-model="user.name"
+                v-validate="{ required: true, min: 4 }"
+                :state="validateState('name')"
+                required
+              />
+              <b-form-invalid-feedback id="name">{{
+                veeErrors.first('name')
+              }}</b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="E-mail:" label-for="user-email">
-              <b-form-input id="user-email" type="text" v-model="user.email" />
-            </b-form-group>
+            <label for=">E-mail">E-mail</label>
+            <span style="color: red"> *</span>
+            <b-form-input
+              id="email"
+              name="email"
+              type="text"
+              v-validate="{ required: true, min: 8 }"
+              :state="validateState('email')"
+              required
+              v-model="user.email"
+              placeholder="Informe o E-mail do Usuário"
+            />
+            <b-form-invalid-feedback id="email">{{
+              veeErrors.first('email')
+            }}</b-form-invalid-feedback>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Senha:" label-for="user-password">
-              <b-form-input
-                id="user-password"
-                type="password"
-                v-model="user.password"
-              />
-            </b-form-group>
+            <label for=">Senha">Senha</label>
+            <span style="color: red"> *</span>
+            <b-form-input
+              id="password"
+              name="password"
+              type="password"
+              v-validate="{ required: true, min: 4 }"
+              :state="validateState('password')"
+              required
+              v-model="user.password"
+              placeholder="Informe a Senha do Usuário"
+            />
+            <b-form-invalid-feedback id="password">{{
+              veeErrors.first('password')
+            }}</b-form-invalid-feedback>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="CPF:" label-for="user-confirm-password">
-              <b-form-input id="user-cpf" type="cpf" v-model="user.cpf" />
-            </b-form-group>
+            <label for=">CPF">CPF</label>
+            <span style="color: red"> *</span>
+
+            <b-form-input
+              id="cpf"
+              name="cpf"
+              type="cpf"
+              v-validate="{ required: true, min: 4 }"
+              :state="validateState('cpf')"
+              required
+              v-model="user.cpf"
+              placeholder="Informe o cpf"
+            />
+            <b-form-invalid-feedback id="cpf">{{
+              veeErrors.first('cpf')
+            }}</b-form-invalid-feedback>
           </b-col>
         </b-row>
         <!-- <b-row>
@@ -303,6 +349,35 @@ export default {
     };
   },
   methods: {
+    validateState(ref) {
+      if (
+        this.veeFields[ref] &&
+        (this.veeFields[ref].dirty || this.veeFields[ref].validated)
+      ) {
+        return !this.veeErrors.has(ref);
+      }
+      return null;
+    },
+    resetForm() {
+      this.CompanyRegistration = {
+        name: null,
+        email: null,
+        password: null,
+      };
+
+      this.$nextTick(() => {
+        this.$validator.reset();
+      });
+    },
+    onSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (!result) {
+          return;
+        }
+
+        // alert('Formulário enviado!');
+      });
+    },
     loadUsers() {
       const localStorageData = JSON.parse(localStorage.getItem(userKey));
       const id = localStorageData.user.id;

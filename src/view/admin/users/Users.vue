@@ -5,47 +5,75 @@
       <b-form @submit.stop.prevent="onSubmit">
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome:" label-for="user-name">
-              <b-form-input
-                id="user-name"
-                type="text"
-                v-model="user.name"
-                placeholder="Informe o Nome do Usuário"
-              />
-            </b-form-group>
+            <label for=">Nome">Nome</label>
+            <span style="color: red"> *</span>
+            <b-form-input
+              id="name"
+              name="name"
+              type="name"
+              v-model="user.name"
+              v-validate="{ required: true, min: 4 }"
+              :state="validateState('name')"
+              required
+            />
+            <b-form-invalid-feedback id="name">{{
+              veeErrors.first('name')
+            }}</b-form-invalid-feedback>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="E-mail:" label-for="user-email">
-              <b-form-input
-                id="user-email"
-                type="text"
-                v-model="user.email"
-                placeholder="Informe o E-mail do Usuário"
-              />
-            </b-form-group>
+            <label for=">E-mail">E-mail</label>
+            <span style="color: red"> *</span>
+            <b-form-input
+              id="email"
+              name="email"
+              type="text"
+              v-validate="{ required: true, min: 8 }"
+              :state="validateState('email')"
+              required
+              v-model="user.email"
+              placeholder="Informe o E-mail do Usuário"
+            />
+            <b-form-invalid-feedback id="email">{{
+              veeErrors.first('email')
+            }}</b-form-invalid-feedback>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Senha:" label-for="user-password">
-              <b-form-input
-                id="user-password"
-                type="password"
-                v-model="user.password"
-                placeholder="Informe a Senha do Usuário"
-              />
-            </b-form-group>
+            <label for=">Senha">Senha</label>
+            <span style="color: red"> *</span>
+            <b-form-input
+              id="password"
+              name="password"
+              type="password"
+              v-validate="{ required: true, min: 4 }"
+              :state="validateState('password')"
+              required
+              v-model="user.password"
+              placeholder="Informe a Senha do Usuário"
+            />
+            <b-form-invalid-feedback id="password">{{
+              veeErrors.first('password')
+            }}</b-form-invalid-feedback>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="CPF:" label-for="user-confirm-password">
-              <b-form-input
-                id="user-cpf"
-                type="cpf"
-                v-model="user.cpf"
-                v-mask="'###.###.###-##'"
-                placeholder="Informe seu cpf"
-              />
-            </b-form-group>
+            <label for=">CPF">CPF</label>
+            <span style="color: red"> *</span>
+
+            <b-form-input
+              id="cpf"
+              name="cpf"
+              type="cpf"
+              v-validate="{ required: true, min: 11 }"
+              :state="validateState('cpf')"
+              required
+              v-model="user.cpf"
+              v-mask="'###.###.###-##'"
+              placeholder="Informe seu cpf"
+            />
+            <b-form-invalid-feedback id="cpf">{{
+              veeErrors.first('cpf')
+            }}</b-form-invalid-feedback>
           </b-col>
         </b-row>
         <hr />
@@ -63,6 +91,9 @@
               Excluir
             </b-button>
             <b-button class="ml-2" @click="reset"> Cancelar </b-button>
+            <b-button variant="info" class="ml-2" @click="resetForm()"
+              >Limpar</b-button
+            >
             <!-- <b-button
               variant="warning"
               class="ml-2"
@@ -192,7 +223,26 @@ export default {
       ],
     };
   },
+
   methods: {
+    // passwordMostraOculta() {
+    //   document
+    //     .getElementById('olho')
+    //     .addEventListener('mousedown', function () {
+    //       document.getElementById('pass').type = 'text';
+    //     });
+
+    //   document.getElementById('olho').addEventListener('mouseup', function () {
+    //     document.getElementById('pass').type = 'password';
+    //   });
+
+    //   // Para que o password não fique exposto apos mover a imagem.
+    //   document
+    //     .getElementById('olho')
+    //     .addEventListener('mousemove', function () {
+    //       document.getElementById('pass').type = 'password';
+    //     });
+    // },
     validateState(ref) {
       if (
         this.veeFields[ref] &&
@@ -241,7 +291,32 @@ export default {
           this.reset();
           this.user = res.data;
         })
-        .catch(showError);
+
+        .catch((error) => {
+          // window.console.log(error);
+          showError(error);
+        });
+      // .catch((err) => {
+      //   console.log('Error:', JSON.stringify(err));
+      // });
+      // .catch(showError);
+
+      if (this.user.name === undefined) {
+        showError('Nome não informado!');
+        return;
+      }
+      if (this.user.email === undefined) {
+        showError('E-mail não informado!');
+        return;
+      }
+      if (this.user.password === undefined) {
+        showError('Senha não informado!');
+        return;
+      }
+      if (this.user.cpf === undefined) {
+        showError('Cpf não informado!');
+        return;
+      }
     },
     // remove() {
     //   const id = this.user.userId;
@@ -275,4 +350,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#pass {
+  width: 150px;
+  padding-right: 20px;
+}
+
+.olho {
+  cursor: pointer;
+  left: 160px;
+  position: absolute;
+  width: 20px;
+}
+</style>

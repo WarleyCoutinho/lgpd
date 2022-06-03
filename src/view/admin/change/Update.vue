@@ -5,52 +5,54 @@
       <b-form @submit.stop.prevent="onSubmit">
         <b-row>
           <b-col md="4" sm="12">
-            <label for=">microfuro">Nome</label>
-            <span style="color: red"> *</span>
-            <b-form-input
-              id="user-name"
-              type="text"
-              v-validate="{ required: true, min: 4 }"
-              :state="validateState('user-name')"
-              required
-              v-model="user.name"
-              placeholder="Informe o Nome do Usuário"
-            />
-            <b-form-invalid-feedback id="user-name">{{
-              veeErrors.first('user-name')
-            }}</b-form-invalid-feedback>
+            <b-form-group>
+              <label for=">Nome">Nome</label>
+              <span style="color: red"> *</span>
+              <b-form-input
+                id="name"
+                name="name"
+                type="name"
+                v-model="user.name"
+                v-validate="{ required: true, min: 4 }"
+                :state="validateState('name')"
+                required
+              />
+              <b-form-invalid-feedback id="name">{{
+                veeErrors.first('name')
+              }}</b-form-invalid-feedback>
+            </b-form-group>
           </b-col>
           <b-col md="4" sm="12">
-            <label for=">microfuro">E-mail</label>
+            <label for=">E-mail">E-mail</label>
             <span style="color: red"> *</span>
             <b-form-input
-              id="user-email"
+              id="email"
+              name="email"
               type="text"
               v-validate="{ required: true, min: 8 }"
-              :state="validateState('user-email')"
+              :state="validateState('email')"
               required
               v-model="user.email"
-              placeholder="Informe o E-mail do Usuário"
             />
-            <b-form-invalid-feedback id="user-email">{{
-              veeErrors.first('user-email')
+            <b-form-invalid-feedback id="email">{{
+              veeErrors.first('email')
             }}</b-form-invalid-feedback>
           </b-col>
           <b-col md="4" sm="12">
-            <label for=">microfuro">Senha</label>
+            <label for=">Senha">Senha</label>
             <span style="color: red"> *</span>
 
             <b-form-input
-              id="user-password"
+              id="password"
+              name="password"
               type="password"
               v-validate="{ required: true, min: 4 }"
-              :state="validateState('user-password')"
+              :state="validateState('password')"
               required
               v-model="user.password"
-              placeholder="Informe a Senha do Usuário"
             />
-            <b-form-invalid-feedback id="user-password">{{
-              veeErrors.first('user-password')
+            <b-form-invalid-feedback id="password">{{
+              veeErrors.first('password')
             }}</b-form-invalid-feedback>
           </b-col>
         </b-row>
@@ -68,9 +70,9 @@
             <b-button class="ml-2" @click="reset"> Cancelar </b-button>
           </b-col>
           <b-col md="2" sm="12" class="text-right">
-            <!-- <b-button variant="info" class="ml-2" @click="resetForm()"
+            <b-button variant="info" class="ml-2" @click="resetForm()"
               >Limpar</b-button
-            > -->
+            >
           </b-col>
         </b-row>
       </b-form>
@@ -149,6 +151,18 @@ export default {
           this.user = res.data;
         })
         .catch(showError);
+      if (this.user.name === undefined) {
+        showError('Nome não informado!');
+        return;
+      }
+      if (this.user.email === undefined) {
+        showError('E-mail não informado!');
+        return;
+      }
+      if (this.user.password === undefined) {
+        showError('Senha não informado!');
+        return;
+      }
     },
     // remove() {
     //   const id = this.user.id;

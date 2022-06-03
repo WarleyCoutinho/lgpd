@@ -3,7 +3,7 @@
     <hr class="hr" />
     <Loading v-if="showLoading" />
     <div id="texto1">
-      <h2>Olá, {{ ` ${user.user.name}` }}</h2>
+      <h2>Olá, {{ `${user.user.name}` }}</h2>
     </div>
     <div id="texto2">
       <h4>Situação atual</h4>
@@ -95,13 +95,11 @@
         </div>
       </b-row>
     </b-card>
+    <div id="divSurpresa"></div>
     <b-row>
-      <div
-        class="container2"
-        v-if="parseInt(statisticsCompany.completePercentage) !== 0"
-      >
+      <div class="container2">
         <b-row>
-          <div class="box">
+          <div class="box" v-if="parseInt(this.financesData) !== 0">
             <h3 class="title1">Finanças</h3>
 
             <apexchart
@@ -114,7 +112,7 @@
 
             <a href="/financas"><h4 class="title">Ver detalhes</h4></a>
           </div>
-          <div class="box">
+          <div class="box" v-if="parseInt(this.tiData) !== 0">
             <h3 class="title1">TI</h3>
 
             <apexchart
@@ -127,7 +125,7 @@
             <a href="/ti"><h4 class="title">Ver detalhes</h4></a>
           </div>
 
-          <div class="box">
+          <div class="box" v-if="parseInt(this.marketingData) !== 0">
             <h3 class="title1">Marketing</h3>
 
             <apexchart
@@ -139,7 +137,7 @@
             />
             <a href="/marketing"><h4 class="title">Ver detalhes</h4></a>
           </div>
-          <div class="box">
+          <div class="box" v-if="parseInt(this.rhData) !== 0">
             <h3 class="title1">RH</h3>
 
             <apexchart
@@ -634,7 +632,7 @@ export default {
   margin-left: 10px;
 }
 .container2 {
-  margin-top: 100px;
+  margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 30px;
   display: inline-flex;
@@ -714,13 +712,13 @@ export default {
   line-height: 24px;
 }
 .column55 {
-  margin-top: 25px;
+  margin-top: 35px;
   margin-left: 30px;
   color: #263238;
 }
 #card {
   width: 704px;
-  height: 330px;
+  height: 300px;
   left: 08px;
   top: 40px;
 
@@ -738,6 +736,11 @@ export default {
   /* Blue Grey 900 */
 
   color: #263238;
+}
+
+#divSurpresa {
+  height: 100px;
+  width: 100px;
 }
 #card01 {
   width: 704px;
