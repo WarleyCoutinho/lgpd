@@ -290,7 +290,7 @@
                     <b-form-input
                         id="password"
                         name="password"
-                        type="text"
+                        type="password"
                         v-validate="{ required: true, min: 4 }"
                         :state="validateState('password')"
                         required
@@ -541,9 +541,7 @@ export default {
     font-size: 16px;
 }
 .buttons-registar {
-    /* margin-right: 240px; local */
-    margin-left: 80px;
-    margin-right: 80px;
+    margin-right: 240px;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -551,8 +549,7 @@ export default {
     color: #ffffff;
 }
 .buttons-cancelar {
-    margin-left: 80px;
-    margin-right: 30px;
+    margin-left: 180px;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -560,8 +557,7 @@ export default {
     color: #ffffff;
 }
 .buttons-limpar {
-    margin-left: 80px;
-
+    margin-left: 10px;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -589,10 +585,10 @@ export default {
     text-shadow: 0.0625rem 0.0625rem 0.0625rem black;
 }
 .logoCadastro {
-    margin-left: 380px;
+    margin-left: 400px;
 }
 .title-Cadastro {
-    margin-left: 420px;
+    margin-left: 450px;
     font-size: 1.2rem;
     font-weight: 100;
     margin-top: 10px;
