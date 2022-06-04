@@ -541,7 +541,9 @@ export default {
     font-size: 16px;
 }
 .buttons-registar {
-    margin-right: 240px;
+    /* margin-right: 240px; local */
+    margin-left: 80px;
+    margin-right: 80px;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -549,7 +551,7 @@ export default {
     color: #ffffff;
 }
 .buttons-cancelar {
-    margin-left: 180px;
+    margin-left: 80px;
     margin-right: 30px;
     font-size: 16px;
     margin-top: 10px;
@@ -558,7 +560,7 @@ export default {
     color: #ffffff;
 }
 .buttons-limpar {
-    margin-left: 20px;
+    margin-left: 80px;
 
     font-size: 16px;
     margin-top: 10px;
@@ -587,10 +589,10 @@ export default {
     text-shadow: 0.0625rem 0.0625rem 0.0625rem black;
 }
 .logoCadastro {
-    margin-left: 400px;
+    margin-left: 380px;
 }
 .title-Cadastro {
-    margin-left: 450px;
+    margin-left: 420px;
     font-size: 1.2rem;
     font-weight: 100;
     margin-top: 10px;
