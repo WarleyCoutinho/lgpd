@@ -701,7 +701,7 @@ export default {
 #card {
     width: 1100px;
     height: 350px;
-    left: 08px;
+    left: 15px;
     top: 40px;
 
     /* H5 */
