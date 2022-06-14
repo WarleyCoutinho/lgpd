@@ -558,7 +558,7 @@ export default {
     margin-top: 60px;
 }
 .naohatestes {
-    /* para voltar normal comentar esse o margin-top e descomentar o codigo do card na linha 65 */
+    /* para voltar normal comentar esse o margin-top: e descomentar o codigo do card na linha 65 */
     margin-top: 55px;
     width: 700px;
     height: 50px;
@@ -625,7 +625,7 @@ export default {
     margin-bottom: 20px;
     margin-right: 20px;
     margin-left: 20px;
-    width: 1245px;
+    width: 245px;
     height: 315px;
     border-width: 2px;
     border-style: solid;
@@ -699,9 +699,9 @@ export default {
     color: #263238;
 }
 #card {
-    width: 1100px;
-    height: 350px;
-    left: 15px;
+    width: 704px;
+    height: 300px;
+    left: 08px;
     top: 40px;
 
     /* H5 */
@@ -746,18 +746,18 @@ export default {
     color: #263238;
 }
 .naohatestes {
-    /* Não há testes recentes. */
-    width: 500px;
+    width: 700px;
     height: 50px;
     left: 12px;
     top: 0.1px;
+
     /* H4 (Bold) */
+
     font-family: "Inter";
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
     line-height: 32px;
-    /* identical to box height, or 133% */
 
     text-align: center;
 
