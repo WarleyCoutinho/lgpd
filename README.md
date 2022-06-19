@@ -7,3 +7,7 @@ Para rodar o projeto
 ou
 yarn serve`
 O projeto estara rodando na porta 8080
+
+# Para baixar e execultar o projeto back-end seque o
+link do repositório a baixo 
+https://github.com/melogustavo/lgpd/tree/master
